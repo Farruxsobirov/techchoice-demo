@@ -1,0 +1,79 @@
+{
+  "seo": {
+    "title": "TechChoice — Strategy is important. Execution is everything.",
+    "description": "The independent, vendor-agnostic technology advisory firm technology leaders call when it has to get done. On time. On budget. No excuses."
+  },
+  "header": {
+    "logo_light": null,
+    "logo_dark": null,
+    "nav_about": "Who we are",
+    "nav_process": "How we work",
+    "cta_label": "Let’s talk",
+    "menu_home": "Home",
+    "menu_about": "Who we are",
+    "menu_process": "How we work",
+    "menu_contact": "Let’s talk",
+    "menu_process_label": "The process",
+    "menu_close_note": "Esc to close"
+  },
+  "hero": {
+    "video": null,
+    "poster": null,
+    "eyebrow": "Independent thinking. Accountable execution.",
+    "title_1": "Strategy is important.",
+    "title_2": "But execution is everything.",
+    "lead": "The advisory firm technology leaders call when it has to get done. On time. On budget. No excuses.",
+    "button_label": "Get it handled",
+    "button_link": "#about",
+    "aside": ["Call before the outage,", "not after the apology tour."],
+    "foot_left": "Boston-born. Built to follow through.",
+    "foot_right": "Scroll to explore"
+  },
+  "about": {
+    "image": null,
+    "title": "We’re Not Consultants. We’re the Ones Who Show Up After the Consultants Leave.",
+    "body": "Every technology leader has a drawer full of strategy decks nobody executed. TechChoice isn’t here to add to that pile. We’re an independent, vendor-agnostic technology advisory firm, and we exist because most of this industry is engineered to point fingers, sell you something, and disappear the moment the contract’s signed. We don’t do that. We assess your business honestly, build YOUR plan, onboard the technologies that optimize your environment, and drive <em>all</em> parties to completion.",
+    "strong": "Boston-born, independently owned, in business since 2014, and allergic to excuses.",
+    "button_label": "Get it handled",
+    "button_link": "#process"
+  },
+  "process": {
+    "label": "02 / How we work",
+    "badge": "CYaaS",
+    "badge_sub": "Cover your as a service",
+    "title": "Design. Deliver. Control.",
+    "note": ["No fourth phase called", "“It’s complicated.”"],
+    "slides": [
+      {"title": "Design", "text": "We evaluate your conditions, build an outcome based on your strategy, and determine the best path forward. This is where the thinking happens.", "link_label": "Explore Design", "link_url": "#process", "image": null, "original_colors": true},
+      {"title": "Deliver", "text": "Decisions were made. Now someone has to make it real. We run the implementation, manage every vendor, and hold everyone to the timeline.", "link_label": "Explore Deliver", "link_url": "#process", "image": null, "original_colors": false},
+      {"title": "Control", "text": "Go-live is not the finish line. We keep auditing, keep optimizing, and keep your environment from drifting back into the mess we just fixed.", "link_label": "Explore Control", "link_url": "#process", "image": null, "original_colors": false}
+    ],
+    "autoplay_seconds": 6,
+    "foot": "One continuous process. Zero handoff gaps."
+  },
+  "contact": {
+    "label": "03 / Let’s get to work",
+    "right_label": "The next move is yours.",
+    "title": ["Got something", "bigger", "to worry about?"],
+    "tiles": [
+      {"icon": "chip", "label": "AI guardrails"},
+      {"icon": "cloud", "label": "Cloud optimization"},
+      {"icon": "chart", "label": "Board-mandated cost cutting"}
+    ],
+    "lead": ["Whatever’s eating your calendar,", "parachute us in to help you handle it."],
+    "button_label": "Bring us in",
+    "button_link": "#contact",
+    "image": null,
+    "caption": ["More", "under control."],
+    "foot_left": "Independent advice. Relentless follow-through."
+  },
+  "footer": {
+    "logo": null,
+    "tagline": ["Independent advice.", "Relentless follow-through."],
+    "explore_label": "Explore",
+    "address_label": "Boston-born.",
+    "address": ["500 Harrison Avenue", "Suite 3R", "Boston, MA 02118"],
+    "copyright": "© 2026 TechChoice. All rights reserved.",
+    "back_to_top": "Back to top"
+  }
+}

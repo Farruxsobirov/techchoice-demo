@@ -37,6 +37,45 @@ function CriticalPath({ path }) {
   );
 }
 
+/** 2×2 loop: 01 → 02 ↓ 03 ← 04 ↑ (back to 01). Steps light up one after another. */
+const CYC_POS = [
+  { row: 1, col: 1 },
+  { row: 1, col: 3 },
+  { row: 3, col: 3 },
+  { row: 3, col: 1 },
+];
+const CYC_ARROWS = [
+  { row: 1, col: 2, d: 'M4 12h16M14 6l6 6-6 6', dir: 'r' },
+  { row: 2, col: 3, d: 'M12 4v16M6 14l6 6 6-6', dir: 'd' },
+  { row: 3, col: 2, d: 'M20 12H4M10 6l-6 6 6 6', dir: 'l' },
+  { row: 2, col: 1, d: 'M12 20V4M6 10l6-6 6 6', dir: 'u' },
+];
+function Cycle({ cycle }) {
+  const n = cycle.steps.length;
+  return (
+    <aside className="cyc rv d2" aria-label={cycle.label}>
+      <span className="cyc-label">{cycle.label}</span>
+      <ol className="cyc-grid">
+        {cycle.steps.map((s, i) => (
+          <li key={i} className="cyc-step" style={{ gridRow: CYC_POS[i].row, gridColumn: CYC_POS[i].col }}>
+            <span className="cyc-num">{String(i + 1).padStart(2, '0')}</span>
+            <b>{s.title}</b>
+            {s.text ? <span className="cyc-text">{s.text}</span> : null}
+          </li>
+        ))}
+        {CYC_ARROWS.slice(0, n === 4 ? 4 : Math.max(0, n - 1)).map((a, i) => (
+          <li key={`a${i}`} className={`cyc-arrow cyc-${a.dir}`} style={{ gridRow: a.row, gridColumn: a.col }} aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+              <path d={a.d} />
+            </svg>
+          </li>
+        ))}
+      </ol>
+      <p className="cyc-foot">{cycle.foot}</p>
+    </aside>
+  );
+}
+
 export default function PhasePage({ site, page: p, variant, cols = 2 }) {
   const { header: h, menus, footer: f } = site;
   const st = p.value.stats;
@@ -130,7 +169,16 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
             </>
           ) : null}
 
-          {p.value.body_left !== null || p.value.body_right !== null ? (
+          {p.value.cycle ? (
+            <div className="dv-cyc-grid">
+              <div className="dv-cyc-copy">
+                <h2 className="split">{p.value.title}</h2>
+                <div className="pp-body rv d1" dangerouslySetInnerHTML={{ __html: p.value.body || '' }} />
+                {p.value.button_label ? <Btn className="ink rv d2" href={p.value.button_url} label={p.value.button_label} /> : null}
+              </div>
+              <Cycle cycle={p.value.cycle} />
+            </div>
+          ) : p.value.body_left !== null || p.value.body_right !== null ? (
             <div className="dv-body">
               <div className="pp-body rv" dangerouslySetInnerHTML={{ __html: p.value.body_left || '' }} />
               <div className="pp-body rv d1" dangerouslySetInnerHTML={{ __html: p.value.body_right || '' }} />
@@ -141,7 +189,7 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
               <div className="pp-body rv d1" dangerouslySetInnerHTML={{ __html: p.value.body || '' }} />
             </div>
           )}
-          {p.value.button_label ? <Btn className="ink rv" href={p.value.button_url} label={p.value.button_label} /> : null}
+          {p.value.button_label && !p.value.cycle ? <Btn className="ink rv" href={p.value.button_url} label={p.value.button_label} /> : null}
         </section>
       </main>
 

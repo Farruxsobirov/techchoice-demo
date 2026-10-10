@@ -274,6 +274,20 @@
     }
   }
 
+  // ---------- Control page: oversight loop lights up step by step ----------
+  const cySteps=[...document.querySelectorAll('.cyc-step')], cyArrows=[...document.querySelectorAll('.cyc-arrow')];
+  if(cySteps.length){
+    let ci=-1, ct=0;
+    const show=i=>{cySteps.forEach((s,k)=>s.classList.toggle('on',k===i));cyArrows.forEach((a,k)=>a.classList.toggle('on',k===i))};
+    const next=()=>{ci=(ci+1)%cySteps.length;show(ci);ct=setTimeout(next,1900)};
+    if(reduce) show(0);
+    else{
+      new IntersectionObserver(es=>{clearTimeout(ct);if(es[0].isIntersecting)ct=setTimeout(next,ci<0?900:400)},{threshold:.35}).observe(cySteps[0].parentElement);
+      cySteps.forEach((s,k)=>s.addEventListener('mouseenter',()=>{clearTimeout(ct);ci=k;show(k)}));
+      cySteps[0].parentElement.addEventListener('mouseleave',()=>{clearTimeout(ct);ct=setTimeout(next,1200)});
+    }
+  }
+
   // ---------- Design page: drawn icons, card spotlight, count-up, image parallax ----------
   document.querySelectorAll('.dp-ico svg').forEach(s=>s.querySelectorAll('path,circle,rect,line,polyline').forEach(p=>{p.setAttribute('pathLength','1');p.classList.add('dl')}));
   document.querySelectorAll('.dp-card').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));

@@ -1,4 +1,5 @@
 import { getContent, src, FALLBACK } from '../lib/content';
+import { rimg } from '../lib/img';
 import { ArrowUpRight, ArrowDown, Asterisk, TileIcon } from '../components/Icons';
 import { Header, FullMenu, Cursor, Footer, Lines, Btn, Phases, pad } from '../components/Chrome';
 
@@ -25,10 +26,8 @@ export default async function Home() {
     <>
       {/* Fixed background video — every section scrolls over it */}
       <div className="bg" aria-hidden="true">
-        <video id="bgVideo" autoPlay muted loop playsInline preload="auto" poster={src(hero.poster, FALLBACK.poster)}>
-          <source src={src(hero.video, FALLBACK.video)} type={hero.video?.mime || 'video/mp4'} />
-        </video>
-        <canvas id="bgCanvas" hidden />
+        {/* The file is attached by site.js after the page has loaded (keeps first paint fast) */}
+        <video id="bgVideo" muted loop playsInline preload="none" poster={rimg(src(hero.poster, FALLBACK.poster), { widths: [1200], q: 70 }).src} data-src={src(hero.video, FALLBACK.video)} />
       </div>
 
       <Header header={h} menus={menus} />
@@ -77,7 +76,7 @@ export default async function Home() {
         {/* ---------- About ---------- */}
         <section className="about" id="about" data-bg="white">
           <div className="about-img rv">
-            <img src={src(about.image, FALLBACK.about)} alt={about.image?.alt || ''} />
+            <img {...rimg(src(about.image, FALLBACK.about), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 50vw' })} alt={about.image?.alt || ''} loading="lazy" decoding="async" />
           </div>
           <div>
             <h2 className="split">{about.title}</h2>
@@ -110,7 +109,7 @@ export default async function Home() {
           <div className="slider rv d2" id="slider" data-cursor="Drag" data-autoplay={pr.autoplay_seconds}>
             {slides.map((s, i) => (
               <div key={i} className={`slide${s.original_colors ? ' keep' : ''}`} data-i={i} role="group" aria-label={`${i + 1} of ${slides.length}: ${s.title}`}>
-                <img src={src(s.image, FALLBACK.slides[i] || FALLBACK.slides[0])} alt={s.image?.alt || ''} />
+                <img {...rimg(src(s.image, FALLBACK.slides[i] || FALLBACK.slides[0]), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 60vw' })} alt={s.image?.alt || ''} loading="lazy" decoding="async" />
               </div>
             ))}
             <button className="arrow prev" id="prev" type="button" aria-label="Previous">
@@ -185,7 +184,7 @@ export default async function Home() {
               <Btn className="ink rv d1" href={ct.button_link} label={ct.button_label} />
             </div>
             <figure className="c-visual" id="cVisual">
-              <img src={src(ct.image, FALLBACK.contact)} alt={ct.image?.alt || ''} />
+              <img {...rimg(src(ct.image, FALLBACK.contact), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 50vw' })} alt={ct.image?.alt || ''} loading="lazy" decoding="async" />
               <figcaption>
                 {ct.caption.map((line, i) => (
                   <span key={i} className="ln">

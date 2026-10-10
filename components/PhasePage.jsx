@@ -1,5 +1,6 @@
 import { splitStat } from '../lib/phase';
 import { LineIcon } from './Icons';
+import { rimg } from '../lib/img';
 import { Header, FullMenu, Cursor, Footer, Btn, Lines } from './Chrome';
 
 /* Shared layout of the phase pages (Design, Deliver, …). */
@@ -102,7 +103,7 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
               <CriticalPath path={p.hero.path} />
             ) : p.hero.image ? (
               <figure className="dp-hero-img rv d1">
-                <img src={p.hero.image.url} alt={p.hero.image.alt} data-parallax="0.12" />
+                <img {...rimg(p.hero.image.url, { widths: [640, 1080, 1920], sizes: '(max-width: 1000px) 100vw, 40vw' })} alt={p.hero.image.alt} data-parallax="0.12" fetchPriority="high" decoding="async" />
               </figure>
             ) : null}
           </div>
@@ -121,7 +122,7 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
           </div>
           {p.problem.image ? (
             <figure className="dp-wide rv">
-              <img src={p.problem.image.url} alt={p.problem.image.alt} data-parallax="0.1" />
+              <img {...rimg(p.problem.image.url, { widths: [828, 1200, 2048], sizes: '100vw' })} alt={p.problem.image.alt} data-parallax="0.1" loading="lazy" decoding="async" />
             </figure>
           ) : null}
         </section>

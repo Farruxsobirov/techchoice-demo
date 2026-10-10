@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { getProcessPage, PHASE_FALLBACK_IMAGES } from '../../lib/process';
 import { src } from '../../lib/content';
+import { rimg } from '../../lib/img';
 import { ArrowDown } from '../../components/Icons';
 import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad } from '../../components/Chrome';
 
@@ -100,7 +101,7 @@ export default async function ProcessPage() {
             {items.map((it, i) => (
               <article key={i} className={`ph-card rv${i ? ` d${Math.min(i, 3)}` : ''}`}>
                 <div className="ph-img">
-                  <img src={src(it.image, PHASE_FALLBACK_IMAGES[i % PHASE_FALLBACK_IMAGES.length])} alt={it.image?.alt || ''} />
+                  <img {...rimg(src(it.image, PHASE_FALLBACK_IMAGES[i % PHASE_FALLBACK_IMAGES.length]), { widths: [640, 1080], sizes: '(max-width: 1000px) 100vw, 33vw' })} alt={it.image?.alt || ''} loading="lazy" decoding="async" />
                 </div>
                 <span className="ph-num">{pad(i + 1)}</span>
                 <h3>{it.title}</h3>

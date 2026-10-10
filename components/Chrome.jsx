@@ -44,8 +44,8 @@ export function Header({ header: h, menus, homeHref = '#top' }) {
   return (
     <header className="header" id="header">
       <a className="logo" href={homeHref} aria-label="Home">
-        <img className="lg-light" src={logoLight} alt={h.logo_light?.alt || 'TechChoice'} />
-        <img className="lg-dark" src={logoDark} alt="" aria-hidden="true" />
+        <img className="lg-light" src={logoLight} alt={h.logo_light?.alt || 'TechChoice'} decoding="async" />
+        <img className="lg-dark" src={logoDark} alt="" aria-hidden="true" decoding="async" />
       </a>
       <nav className="nav">
         {menus.header.map((m, i) => (
@@ -118,7 +118,7 @@ export function Footer({ footer: f, header: h, menus, homeHref = '#top' }) {
       <div className="f-grid">
         <div className="f-brand rv">
           <a href={homeHref} aria-label="Home">
-            <img src={logo} alt={f.logo?.alt || 'TechChoice'} />
+            <img src={logo} alt={f.logo?.alt || 'TechChoice'} loading="lazy" decoding="async" />
           </a>
           <p>
             <Lines items={f.tagline} />

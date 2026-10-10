@@ -11,15 +11,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap" />
+        {/* Self-hosted Inter Tight (public/fonts): no third-party, render-blocking stylesheet */}
+        <link rel="preload" href="/fonts/inter-tight-latin-400-normal.woff2" as="font" type="font/woff2" crossOrigin="" />
         <script dangerouslySetInnerHTML={{ __html: earlyJs }} />
       </head>
       <body>
         {children}
-        <Script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" strategy="beforeInteractive" />
         <Script src="/site.js" strategy="afterInteractive" />
       </body>
     </html>

@@ -62,95 +62,48 @@
   requestAnimationFrame(()=>document.querySelectorAll('.hero .rv,.hero .split,[data-hero] .rv,[data-hero] .split').forEach(el=>el.classList.add('in')));
 
   // ---------- Background video (home page only) ----------
+  // The video file is attached only after the page has loaded, so it never competes with the
+  // first paint; until then (or if it can't play) the poster image is shown.
   if(v){
-  // ---------- Canvas fallback: same dotted waves, drawn live ----------
-  const cv=document.getElementById('bgCanvas'), ctx=cv.getContext('2d');
-  const glowC=document.createElement('canvas'), gctx=glowC.getContext('2d');
-  let useCanvas=false, canvasPaused=false, raf=0, t0=performance.now(), tPaused=0;
-  const ribbons=[
-    {nu:200,nv:110,u0:-1.2,u1:1.6,ph:0,c1:[205,60,255],c2:[70,110,255],tw:.9,ys:.05,xs:.62,yc:.48,br:.9},
-    {nu:180,nv:76,u0:-.6,u1:1.8,ph:1.7,c1:[120,70,255],c2:[60,170,255],tw:-.7,ys:-.35,xs:.70,yc:.40,br:.6},
-    {nu:170,nv:66,u0:-.4,u1:1.8,ph:3.1,c1:[170,60,255],c2:[90,120,255],tw:.5,ys:.55,xs:.66,yc:.52,br:.55}];
-  let img=null, buf=null;
-  function size(){
-    const k=Math.min(1,1280/innerWidth);
-    cv.width=glowC.width=Math.max(2,Math.round(innerWidth*k));
-    cv.height=glowC.height=Math.max(2,Math.round(innerHeight*k));
-    img=gctx.createImageData(cv.width,cv.height); buf=img.data;
-  }
-  function draw(now){
-    raf=requestAnimationFrame(draw);
-    if(canvasPaused) return;
-    const W=cv.width,H=cv.height, th=((now-t0)/12000)*Math.PI*2;
-    const S=Math.max(W,H*16/9), ox=(W-S)/2, h=S*9/16, oy=(H-h)/2;
-    buf.fill(0);
-    for(const r of ribbons){
-      for(let i=0;i<r.nu;i++){
-        const u=r.u0+(r.u1-r.u0)*i/(r.nu-1), t=i/(r.nu-1);
-        const cr=r.c1[0]*(1-t)+r.c2[0]*t, cg=r.c1[1]*(1-t)+r.c2[1]*t, cb=r.c1[2]*(1-t)+r.c2[2]*t;
-        const ub=.3+.7*Math.min(Math.max(u+1,0),1);
-        for(let j=0;j<r.nv;j++){
-          const v=j/(r.nv-1);
-          const s1=Math.sin(3*u+2.2*v+th+r.ph);
-          const y=.22*s1+.14*Math.sin(5*v-1.5*u+2*th+r.ph)+.08*Math.cos(7*u+3*v-th+r.ph)+r.tw*(v-.5)*(u-.2);
-          const X=u*.9+.35*v, Z=1.6+v*2.2;
-          const sx=(ox+X/Z*1.25*S*.5+S*r.xs)|0, sy=(oy-(y-r.ys)/Z*1.25*S*.5+h*r.yc)|0;
-          if(sx<0||sx>=W||sy<0||sy>=H) continue;
-          const hl=s1>0?Math.pow(s1,6)*.5:0, b=(1.15-v)*r.br*ub*1.25;
-          const k=(sy*W+sx)*4;
-          buf[k]+=((cr*(1-hl)+170*hl)*b); buf[k+1]+=((cg*(1-hl)+200*hl)*b); buf[k+2]+=((cb*(1-hl)+255*hl)*b); buf[k+3]=255;
-        }
-      }
-    }
-    gctx.putImageData(img,0,0);
-    ctx.globalCompositeOperation='source-over';ctx.filter='none';ctx.globalAlpha=1;
-    ctx.fillStyle='#050508';ctx.fillRect(0,0,W,H);
-    ctx.globalCompositeOperation='lighter';ctx.drawImage(glowC,0,0);
-    ctx.filter=`blur(${Math.max(2,Math.round(5*W/1280))}px)`;ctx.drawImage(glowC,0,0);ctx.drawImage(glowC,0,0);
-    ctx.filter='none';ctx.globalCompositeOperation='source-over';
-  }
-  function startCanvas(){
-    if(useCanvas) return; useCanvas=true;
-    v.hidden=true; cv.hidden=false; size(); addEventListener('resize',size);
-    if(reduce){canvasPaused=false;draw(performance.now());cancelAnimationFrame(raf);canvasPaused=true}
-    else raf=requestAnimationFrame(draw);
-    sync();
-  }
-  function stopCanvas(){useCanvas=false;cancelAnimationFrame(raf);cv.hidden=true;v.hidden=false}
-
-  // ---------- Blurred copies of the background for white sections ----------
+  // Blurred copies of the background for white sections: drawn at ~30 fps, only while visible.
   const mio=new IntersectionObserver(es=>es.forEach(e=>{const m=mirrors.find(x=>x.sec===e.target);if(m)m.on=e.isIntersecting}),{rootMargin:'10% 0px'});
   mirrors.forEach(m=>mio.observe(m.sec));
-  function sizeMirrors(){const W=Math.min(1280,Math.round(innerWidth*.75)),H=Math.max(60,Math.round(W*innerHeight/innerWidth));mirrors.forEach(m=>{m.c.width=W;m.c.height=H})}
+  function sizeMirrors(){const W=Math.min(960,Math.round(innerWidth*.5)),H=Math.max(60,Math.round(W*innerHeight/innerWidth));mirrors.forEach(m=>{m.c.width=W;m.c.height=H;m.drawn=false})}
   sizeMirrors(); addEventListener('resize',sizeMirrors);
-  (function mirrorLoop(){
+  let poster=null;
+  if(v.poster){poster=new Image();poster.decoding='async';poster.src=v.poster}
+  let lastDraw=0;
+  (function mirrorLoop(now){
     requestAnimationFrame(mirrorLoop);
-    const src=useCanvas?cv:v; const sw=useCanvas?cv.width:v.videoWidth, sh=useCanvas?cv.height:v.videoHeight;
-    if(!sw||!sh) return;
-    for(const m of mirrors){ if(!m.on) continue;
+    if(!mirrors.some(m=>m.on)) return;
+    const live=v.readyState>=2 && !v.paused;
+    const src=v.readyState>=2?v:(poster&&poster.complete&&poster.naturalWidth?poster:null);
+    if(!src) return;
+    if(live){ if(now-lastDraw<33) return; lastDraw=now }      // ~30 fps is plenty for a blurred backdrop
+    const sw=src.videoWidth||src.naturalWidth, sh=src.videoHeight||src.naturalHeight;
+    for(const m of mirrors){ if(!m.on || (!live && m.drawn)) continue;
       const W=m.c.width,H=m.c.height, k=Math.max(W/sw,H/sh), dw=sw*k, dh=sh*k;
-      try{m.ctx.drawImage(src,(W-dw)/2,(H-dh)/2,dw,dh)}catch(e){}
+      try{m.ctx.drawImage(src,(W-dw)/2,(H-dh)/2,dw,dh);m.drawn=!live}catch(e){}
     }
-  })();
+  })(performance.now());
 
-  // ---------- Pause / play (works for video and canvas) ----------
+  // Pause / play
   const btn=document.getElementById('pauseBtn'), ip=document.getElementById('icoPause'), ipl=document.getElementById('icoPlay');
-  const isPaused=()=>useCanvas?canvasPaused:v.paused;
-  function sync(){const p=isPaused();ip.hidden=p;ipl.hidden=!p;btn.setAttribute('aria-label',p?'Play background video':'Pause background video')}
-  btn.addEventListener('click',()=>{
-    if(useCanvas){canvasPaused=!canvasPaused;if(canvasPaused)tPaused=performance.now();else t0+=performance.now()-tPaused;sync();return}
-    v.paused?v.play():v.pause()});
+  function sync(){const p=v.paused;ip.hidden=p;ipl.hidden=!p;btn.setAttribute('aria-label',p?'Play background video':'Pause background video')}
+  btn.addEventListener('click',()=>{if(v.paused){userPaused=false;v.play().catch(()=>{})}else{userPaused=true;v.pause()}});
   v.addEventListener('play',sync);v.addEventListener('pause',sync);
+  let userPaused=false;
+  // Don't decode video while the hero and white sections are all off screen (e.g. reading the footer)
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)v.pause();else if(!userPaused&&!reduce)v.play().catch(()=>{})});
 
-  // Try the video; if it can't play within 2.5s, switch to the canvas version
-  v.muted=true;
-  if(!reduce){const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{})}
-  v.addEventListener('error',startCanvas,true);
-  setTimeout(()=>{if(!reduce && (v.readyState<2||v.paused||v.currentTime===0)) startCanvas()},2500);
+  function attachVideo(){
+    if(!v.dataset.src||v.getAttribute('src')) return;
+    v.src=v.dataset.src; v.muted=true;
+    if(!reduce){const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{})}
+  }
+  if(document.readyState==='complete') setTimeout(attachVideo,200);
+  else addEventListener('load',()=>setTimeout(attachVideo,200),{once:true});
   sync();
-
-
-
   }
 
   // ---------- How we work slider (home page only) ----------
@@ -202,10 +155,13 @@
 
   // ---------- Smooth scroll (Lenis if it loaded, native otherwise) ----------
   let lenis=null;
-  if(window.Lenis && !reduce){
+  function startLenis(){
+    if(lenis||!window.Lenis||reduce) return;
     lenis=new Lenis({lerp:.085,wheelMultiplier:.95,smoothWheel:true});
     (function raf(t){lenis.raf(t);requestAnimationFrame(raf)})(performance.now());
   }
+  if(window.Lenis) startLenis();
+  else if(!reduce){const ls=document.createElement('script');ls.src='/vendor/lenis.min.js';ls.async=true;ls.onload=startLenis;document.head.appendChild(ls)}
   function scrollToEl(el){
     if(!el) return;
     if(lenis) lenis.scrollTo(el,{duration:1.6,easing:t=>1-Math.pow(1-t,4)});

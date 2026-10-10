@@ -1,4 +1,5 @@
-/* TechChoice home page interactions. Runs once after the page has hydrated. */
+/* TechChoice site interactions. Runs once per page load; every block checks that its elements exist,
+   so the same file serves the home page (video, slider) and inner pages (no video). */
 (function(){
   if(window.__tcReady) return; window.__tcReady=true;
   document.documentElement.classList.add('js');
@@ -18,13 +19,13 @@
   let ticking=false;
   function update(){
     ticking=false;
-    const h=hero.offsetHeight, y=window.scrollY;
-    const vh=innerHeight;
-    if(!reduce){ // slow parallax inside the parachute frame
+    const y=window.scrollY, vh=innerHeight;
+    if(!reduce && cVis){ // slow parallax inside the parachute frame
       const r=cVis.getBoundingClientRect(); const k=Math.min(Math.max((vh-r.top)/(vh+r.height),0),1);
       cVis.style.setProperty('--py',((k-.5)*-60).toFixed(1)+'px'); cVis.style.setProperty('--ps',(1.12-k*.08).toFixed(3));
     }
-    if(!reduce){
+    if(!reduce && hero && inner){
+      const h=hero.offsetHeight;
       inner.style.transform=`translate3d(0,${-y*0.25}px,0)`;
       inner.style.opacity=String(Math.max(0,1-y/(h*0.45)));
     }
@@ -58,8 +59,10 @@
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
   document.querySelectorAll('.rv,.c-title,.c-visual,.split:not(.live)').forEach(el=>io.observe(el));
   // hero content shows immediately
-  requestAnimationFrame(()=>document.querySelectorAll('.hero .rv,.hero .split').forEach(el=>el.classList.add('in')));
+  requestAnimationFrame(()=>document.querySelectorAll('.hero .rv,.hero .split,[data-hero] .rv,[data-hero] .split').forEach(el=>el.classList.add('in')));
 
+  // ---------- Background video (home page only) ----------
+  if(v){
   // ---------- Canvas fallback: same dotted waves, drawn live ----------
   const cv=document.getElementById('bgCanvas'), ctx=cv.getContext('2d');
   const glowC=document.createElement('canvas'), gctx=glowC.getContext('2d');
@@ -148,8 +151,11 @@
 
 
 
-  // ---------- How we work slider ----------
+  }
+
+  // ---------- How we work slider (home page only) ----------
   const slider=document.getElementById('slider');
+  if(slider){
   const slides=[...slider.querySelectorAll('.slide')], items=[...document.querySelectorAll('.p-copy .item')];
   const bars=[...document.querySelectorAll('#bars button')], count=document.getElementById('count');
   const n=slides.length, DUR=Math.max(2,+slider.dataset.autoplay||6)*1000;
@@ -189,7 +195,10 @@
   new IntersectionObserver(es=>{inView=es[0].isIntersecting;inView?render():clearTimeout(timer);slider.classList.toggle('paused',!inView)},{threshold:.35}).observe(slider);
   render();
 
-  document.getElementById('toTop').addEventListener('click',()=>scrollTo({top:0,behavior:reduce?'auto':'smooth'}));
+  }
+
+  const toTop=document.getElementById('toTop');
+  if(toTop) toTop.addEventListener('click',()=>scrollTo({top:0,behavior:reduce?'auto':'smooth'}));
 
   // ---------- Smooth scroll (Lenis if it loaded, native otherwise) ----------
   let lenis=null;
@@ -202,8 +211,11 @@
     if(lenis) lenis.scrollTo(el,{duration:1.6,easing:t=>1-Math.pow(1-t,4)});
     else el.scrollIntoView({behavior:reduce?'auto':'smooth'});
   }
-  document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href')); if(!t) return;
+  document.querySelectorAll('a[href*="#"]').forEach(a=>a.addEventListener('click',e=>{
+    const u=new URL(a.getAttribute('href'),location.href);
+    if(u.origin!==location.origin || u.pathname!==location.pathname || !u.hash) return; // another page: normal navigation
+    let t=null; try{t=document.querySelector(u.hash)}catch(_){}
+    if(!t) return;
     e.preventDefault();
     if(menu.classList.contains('open')){closeMenu();setTimeout(()=>scrollToEl(t),700)}
     else scrollToEl(t);
@@ -222,7 +234,7 @@
     }
     lastY=y;
     const probe=hh/2; let light=false;
-    for(const el of themed){const r=el.getBoundingClientRect(); if(r.top<=probe && r.bottom>probe){light=el.dataset.bg==='white'||el.tagName==='FOOTER';break}}
+    for(const el of themed){const r=el.getBoundingClientRect(); if(r.top<=probe && r.bottom>probe){light=el.dataset.bg==='white'||el.dataset.theme==='light'||el.tagName==='FOOTER';break}}
     header.classList.toggle('light',light);
   }
   addEventListener('scroll',headerUpdate,{passive:true}); headerUpdate();
@@ -247,6 +259,20 @@
   }
   burger.addEventListener('click',e=>menu.classList.contains('open')?closeMenu():openMenu(e.detail===0));
   addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.classList.contains('open')){closeMenu();burger.focus()}});
+
+  // ---------- Process card (inner page): steps light up one after another ----------
+  const steps=[...document.querySelectorAll('.pc-step')];
+  if(steps.length){
+    let si=steps.length-1, stTimer=0;
+    const light=i=>steps.forEach((s,k)=>{s.classList.toggle('on',k===i);s.classList.toggle('done',k<i)});
+    const tick=()=>{si=(si+1)%steps.length;light(si);stTimer=setTimeout(tick,si===steps.length-1?3200:1600)};
+    light(si);
+    if(!reduce){
+      new IntersectionObserver(es=>{clearTimeout(stTimer);if(es[0].isIntersecting)stTimer=setTimeout(tick,1400)},{threshold:.4}).observe(steps[0].parentElement);
+      steps.forEach((s,k)=>s.addEventListener('mouseenter',()=>{clearTimeout(stTimer);si=k;light(k)}));
+      steps[0].parentElement.addEventListener('mouseleave',()=>{clearTimeout(stTimer);stTimer=setTimeout(tick,1600)});
+    }
+  }
 
   // ---------- Buttons: rolling label + swapping arrow + magnetic pull ----------
   document.querySelectorAll('.btn').forEach(b=>{

@@ -15,7 +15,7 @@ export async function POST(request) {
     return Response.json({ ok: false, error: 'Wrong secret.' }, { status: 401 });
   }
   revalidateTag(CONTENT_TAG);
-  revalidatePath('/');
+  revalidatePath('/', 'layout'); // every page (home, /process, …)
   return Response.json({ ok: true, revalidated: true, at: new Date().toISOString() });
 }
 

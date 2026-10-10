@@ -1,6 +1,6 @@
-import { Fragment } from 'react';
 import { getContent, src, FALLBACK } from '../lib/content';
-import { ArrowUpRight, ArrowDown, ArrowUp, Asterisk, TileIcon } from '../components/Icons';
+import { ArrowUpRight, ArrowDown, Asterisk, TileIcon } from '../components/Icons';
+import { Header, FullMenu, Cursor, Footer, Lines, Btn, Phases, pad } from '../components/Chrome';
 
 // Rebuild at most every 5 minutes on its own; WordPress triggers an instant rebuild on save.
 export const revalidate = 300;
@@ -14,46 +14,12 @@ export async function generateMetadata() {
   };
 }
 
-/** Renders an array of lines with <br> between them. */
-function Lines({ items }) {
-  return (items || []).map((line, i) => (
-    <Fragment key={i}>
-      {i > 0 && <br />}
-      {line}
-    </Fragment>
-  ));
-}
-
-function Btn({ href, label, className = '' }) {
-  return (
-    <a className={`btn ${className}`.trim()} href={href || '#'}>
-      {label} <ArrowUpRight />
-    </a>
-  );
-}
-
-function Phases({ slides }) {
-  return (
-    <span className="phases">
-      {slides.map((s, i) => (
-        <Fragment key={i}>
-          {i > 0 && <> <i /> </>}
-          {s.title}
-        </Fragment>
-      ))}
-    </span>
-  );
-}
-
-const pad = (n) => String(n).padStart(2, '0');
 const delay = (i) => (i > 0 ? ` d${Math.min(i, 3)}` : '');
 
 export default async function Home() {
   const c = await getContent();
   const { header: h, menus, hero, about, process: pr, contact: ct, footer: f } = c;
   const slides = pr.slides && pr.slides.length ? pr.slides : [];
-  const logoLight = src(h.logo_light, FALLBACK.logoLight);
-  const logoDark = src(h.logo_dark, FALLBACK.logoDark);
 
   return (
     <>
@@ -65,56 +31,9 @@ export default async function Home() {
         <canvas id="bgCanvas" hidden />
       </div>
 
-      <header className="header" id="header">
-        <a className="logo" href="#top" aria-label="Home">
-          <img className="lg-light" src={logoLight} alt={h.logo_light?.alt || 'TechChoice'} />
-          <img className="lg-dark" src={logoDark} alt="" aria-hidden="true" />
-        </a>
-        <nav className="nav">
-          {menus.header.map((m, i) => (
-            <a key={i} className="link" href={m.url} target={m.target || undefined}>
-              {m.title}
-            </a>
-          ))}
-          <Btn className="sm" href={h.cta_url} label={h.cta_label} />
-          <button className="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
-            <i />
-            <i />
-          </button>
-        </nav>
-      </header>
-
-      <div className="menu" id="menu" aria-hidden="true">
-        <div className="menu-bg" />
-        <div className="menu-inner">
-          <nav className="menu-nav" aria-label="Main">
-            {menus.fullscreen.map((m, i) => (
-              <a key={i} href={m.url} target={m.target || undefined}>
-                <small>{pad(i + 1)}</small>
-                <span className="t">{m.title}</span>
-              </a>
-            ))}
-          </nav>
-          <div className="menu-side">
-            <div>
-              <b>{f.address_label}</b>
-              <Lines items={f.address} />
-            </div>
-            <div>
-              <b>{h.menu_process_label}</b>
-              <Phases slides={slides} />
-            </div>
-            <span className="menu-close-note">{h.menu_close_note}</span>
-          </div>
-        </div>
-      </div>
-
-      <div className="cursor" id="cursor" aria-hidden="true">
-        <div className="ring">
-          <em id="cursorTxt">Drag</em>
-        </div>
-        <div className="dot" />
-      </div>
+      <Header header={h} menus={menus} />
+      <FullMenu header={h} menus={menus} footer={f} phases={slides} />
+      <Cursor />
 
       <main>
         {/* ---------- Hero ---------- */}
@@ -279,45 +198,12 @@ export default async function Home() {
           </div>
           <div className="c-foot rv">
             <span>{ct.foot_left}</span>
-            <Phases slides={slides} />
+            <Phases items={slides} />
           </div>
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="f-grid">
-          <div className="f-brand rv">
-            <a href="#top" aria-label="Home">
-              <img src={src(f.logo, logoDark)} alt={f.logo?.alt || 'TechChoice'} />
-            </a>
-            <p>
-              <Lines items={f.tagline} />
-            </p>
-          </div>
-          <nav className="rv d1" aria-label="Footer">
-            <span className="f-label">{f.explore_label}</span>
-            <div className="f-nav">
-              {menus.footer.map((m, i) => (
-                <a key={i} href={m.url} target={m.target || undefined}>
-                  {m.title}
-                </a>
-              ))}
-            </div>
-          </nav>
-          <div className="rv d2">
-            <span className="f-label">{f.address_label}</span>
-            <address className="f-addr">
-              <Lines items={f.address} />
-            </address>
-          </div>
-        </div>
-        <div className="f-bottom">
-          <span>{f.copyright}</span>
-          <button className="totop" id="toTop" type="button">
-            {f.back_to_top} <ArrowUp />
-          </button>
-        </div>
-      </footer>
+      <Footer footer={f} header={h} menus={menus} />
     </>
   );
 }

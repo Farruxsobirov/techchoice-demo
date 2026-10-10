@@ -401,3 +401,78 @@ h1{margin:24px 0 0;font-weight:400;font-size:clamp(44px,6.9vw,132px);line-height
 .footer.has-cols .f-grid{grid-template-columns:minmax(0,1fr) minmax(0,2.1fr) minmax(0,auto)}
 .f-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:24px clamp(24px,3vw,64px)}
 @media (max-width:800px){.footer.has-cols .f-grid{grid-template-columns:1fr}.f-cols{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* =========================================================
+   Design page (/design)
+   ========================================================= */
+.dp{--dp-red:#ff1e1e;--dp-pink:#ff1493}
+.dp-hero h1{margin:0;font-size:clamp(42px,4.3vw,84px);line-height:1;letter-spacing:-.05em;max-width:none}
+.dp-hero-grid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.74fr);gap:clamp(32px,5vw,96px);align-items:center;margin-top:clamp(24px,2.6vw,48px)}
+.dp-hero .pp-lead{max-width:44ch}
+.dp-hero-img{position:relative;margin:0;overflow:hidden;aspect-ratio:1360/1160;background:#111}
+.dp-hero-img img{position:absolute;inset:-8% 0;width:100%;height:116%;object-fit:cover;transform:scale(1.15);transition:transform 1.8s cubic-bezier(.16,1,.3,1)}
+.js .dp-hero-img.rv{opacity:1;transform:none;clip-path:inset(0 0 100% 0);transition:clip-path 1.4s cubic-bezier(.7,0,.2,1) .25s}
+.js .dp-hero-img.rv.in{clip-path:inset(0)}
+.dp-hero-img.in img{transform:scale(1)}
+
+.dp-problem-grid h2{font-size:clamp(40px,3.5vw,68px)}
+
+.dp-included{background:var(--pp-dark);color:#fff;padding-block:clamp(72px,6.6vw,128px)}
+.dp-included h2{margin:clamp(28px,2.6vw,48px) 0 0;font-weight:400;font-size:clamp(40px,4.3vw,84px);line-height:1.02;letter-spacing:-.045em}
+.dp-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.1vw,40px) clamp(16px,2.1vw,40px);margin-top:clamp(28px,2.6vw,48px)}
+.dp-card{--mx:50%;--my:50%;position:relative;overflow:hidden;border:1px solid var(--pp-line);padding:clamp(20px,1.55vw,30px) clamp(20px,1.55vw,30px) clamp(24px,2vw,38px);
+  transition:border-color .5s,background-color .5s,opacity 1.2s cubic-bezier(.16,1,.3,1),transform 1.4s cubic-bezier(.16,1,.3,1)}
+.dp-card::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s;
+  background:radial-gradient(420px circle at var(--mx) var(--my),rgba(255,30,30,.12),transparent 60%)}
+.dp-card:hover{border-color:rgba(255,255,255,.3);background-color:#1f1f22}
+.dp-card:hover::before{opacity:1}
+.dp-ico{display:grid;place-items:center;width:clamp(24px,1.6vw,30px);height:clamp(24px,1.6vw,30px);color:var(--dp-red);transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.dp-ico svg,.dp-ico img{width:100%;height:100%;object-fit:contain}
+.dp-card:hover .dp-ico{transform:scale(1.15) rotate(-6deg)}
+.js .dp-ico .dl{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.65,0,.35,1) .35s}
+.js .dp-card.in .dp-ico .dl{stroke-dashoffset:0}
+.dp-card h3{margin:clamp(14px,1.2vw,22px) 0 0;font-weight:400;font-size:clamp(21px,1.55vw,30px);letter-spacing:-.02em}
+.dp-card p{margin:clamp(12px,1vw,18px) 0 0;font-size:clamp(15px,1.12vw,21px);line-height:1.45;color:#a3a3a8}
+
+.dp-value{background:#fff;color:#0a0a0a;padding-block:clamp(72px,6vw,120px) clamp(80px,6vw,120px)}
+.dp-value h2{margin:clamp(28px,2.6vw,48px) 0 0;font-weight:400;font-size:clamp(44px,4.7vw,92px);line-height:1;letter-spacing:-.045em}
+.dv-stats{display:grid;grid-template-columns:minmax(0,.4fr) minmax(0,1fr);margin-top:clamp(40px,3.8vw,72px)}
+.dv-stat{padding-right:clamp(24px,2vw,40px);border-right:1px solid #e3e3e6}
+.dv-compare{padding-left:clamp(24px,2vw,40px)}
+.dv-num{display:block;font-weight:400;font-size:clamp(64px,7.3vw,140px);line-height:1;letter-spacing:-.05em;font-variant-numeric:tabular-nums}
+.dv-cap{display:block;margin-top:clamp(18px,1.8vw,34px);font-size:clamp(14px,1.05vw,19px);color:#55555c}
+.dv-row{display:flex;align-items:center;flex-wrap:wrap;gap:clamp(16px,2.8vw,54px)}
+.dv-from{position:relative;text-decoration:none;font-size:clamp(48px,5.9vw,112px);line-height:1.1;letter-spacing:-.05em;color:#a3a3ab;padding-top:.08em}
+.dv-from::after{content:"";position:absolute;left:-1%;right:-1%;top:56%;height:max(3px,.06em);background:#a3a3ab;transform:scaleX(0);transform-origin:left;transition:transform 1s cubic-bezier(.7,0,.2,1) .7s}
+.dv-arrow{width:clamp(18px,1.3vw,24px);height:clamp(18px,1.3vw,24px);color:#a3a3ab;opacity:0;transform:translateX(-14px);transition:opacity .6s 1.4s,transform .9s cubic-bezier(.16,1,.3,1) 1.4s}
+.dv-to{display:inline-block;font-weight:400;font-size:clamp(64px,7.3vw,140px);line-height:1.1;letter-spacing:-.05em;padding-right:.06em;
+  background:linear-gradient(90deg,var(--dp-red),var(--dp-pink));-webkit-background-clip:text;background-clip:text;color:transparent;
+  clip-path:inset(0 100% 0 0);transition:clip-path 1.2s cubic-bezier(.7,0,.2,1) 1.6s}
+.dv-bar{display:block;height:3px;margin-top:clamp(14px,1.6vw,28px);background:linear-gradient(90deg,var(--dp-red),var(--dp-pink));transform:scaleX(0);transform-origin:left;transition:transform 1.6s cubic-bezier(.7,0,.2,1) 1.9s}
+.dv-compare .dv-cap{margin-top:clamp(14px,1.4vw,24px)}
+.dv-compare.in .dv-from::after,.dv-compare.in .dv-bar{transform:scaleX(1)}
+.dv-compare.in .dv-arrow{opacity:1;transform:none}
+.dv-compare.in .dv-to{clip-path:inset(0 -5% 0 0)}
+html:not(.js) .dv-from::after,html:not(.js) .dv-bar{transform:scaleX(1)}
+html:not(.js) .dv-arrow{opacity:1;transform:none}
+html:not(.js) .dv-to{clip-path:none}
+.dv-body{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4.2vw,80px);margin-top:clamp(48px,4.6vw,88px);padding-top:clamp(28px,2.2vw,42px);border-top:1px solid #e3e3e6}
+.dv-body .pp-body{font-size:clamp(16px,1.25vw,24px);line-height:1.4}
+.dp-value .btn{margin-top:clamp(32px,2.8vw,54px)}
+
+@media (max-width:1000px){
+  .dp-hero-grid,.dp-cards,.dv-body{grid-template-columns:1fr}
+  .dp-hero-img{max-width:620px}
+  .dv-stats{grid-template-columns:1fr;gap:40px}
+  .dv-stat{padding:0 0 36px;border-right:0;border-bottom:1px solid #e3e3e6}
+  .dv-compare{padding-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .js .dp-hero-img.rv{clip-path:none}
+  .dp-hero-img img{transform:none}
+  .js .dp-ico .dl{stroke-dashoffset:0;transition:none}
+  .dv-from::after,.dv-bar{transform:scaleX(1);transition:none}
+  .dv-arrow{opacity:1;transform:none;transition:none}
+  .dv-to{clip-path:none;transition:none}
+}
+.js .dp-card.rv{transition:border-color .5s,background-color .5s,opacity 1.2s cubic-bezier(.16,1,.3,1),transform 1.4s cubic-bezier(.16,1,.3,1)}

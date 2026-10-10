@@ -274,6 +274,26 @@
     }
   }
 
+  // ---------- Design page: drawn icons, card spotlight, count-up, image parallax ----------
+  document.querySelectorAll('.dp-ico svg').forEach(s=>s.querySelectorAll('path,circle,rect,line,polyline').forEach(p=>{p.setAttribute('pathLength','1');p.classList.add('dl')}));
+  document.querySelectorAll('.dp-card').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));
+  const counters=[...document.querySelectorAll('[data-count]')];
+  if(counters.length){
+    const fmt=(el,n)=>{const g=el.dataset.grouped?Math.round(n).toLocaleString('en-US'):String(Math.round(n));el.textContent=(el.dataset.pre||'')+g+(el.dataset.suf||'')};
+    const run=el=>{const to=+el.dataset.count,t0=performance.now(),D=1800;(function f(t){const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,4);fmt(el,to*e);if(k<1)requestAnimationFrame(f)})(t0)};
+    if(!reduce){
+      counters.forEach(el=>fmt(el,0));
+      const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){run(e.target);cio.unobserve(e.target)}}),{threshold:.5});
+      counters.forEach(el=>cio.observe(el));
+    }
+  }
+  const plx=[...document.querySelectorAll('[data-parallax]')];
+  if(plx.length && !reduce){
+    let pr=0;
+    const upd=()=>{pr=0;const vh=innerHeight;plx.forEach(el=>{const box=el.parentElement.getBoundingClientRect();if(box.bottom<0||box.top>vh)return;const c=(box.top+box.height/2-vh/2)/vh;el.style.translate='0 '+(c*-(+el.dataset.parallax||.1)*box.height).toFixed(1)+'px'})};
+    addEventListener('scroll',()=>{if(!pr)pr=requestAnimationFrame(upd)},{passive:true});upd();
+  }
+
   // ---------- Buttons: rolling label + swapping arrow + magnetic pull ----------
   document.querySelectorAll('.btn').forEach(b=>{
     const svg=b.querySelector('svg'); const txt=[...b.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').trim();

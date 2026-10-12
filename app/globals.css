@@ -632,3 +632,26 @@ html:not(.js) .dv-to{clip-path:none}
   .js .cx-mod{opacity:1;transform:none;transition:none}
   .cx-flow-line::after{transition:none}
 }
+
+/* =========================================================
+   Vendor Partners page (/vendor-partners)
+   ========================================================= */
+.pc--plain .pc-step{border-color:transparent;height:clamp(50px,3.4vw,66px);padding:0 16px}
+.pc--plain .pc-step.on{background:#202024;transform:translateX(4px)}
+.pc--plain .pc-ico{color:var(--accent)}
+.pc--plain .pc-ico svg{stroke-width:1.5}
+.pc--plain .pc-arrow{height:clamp(30px,2.2vw,42px)}
+.pc--plain .pc-arrow svg{width:14px;height:14px}
+
+.vp-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(16px,2.1vw,40px);margin-top:clamp(28px,2.6vw,48px)}
+.vp-why h2{max-width:18.5em}
+
+.vp-cats{background:#fff;color:#0a0a0a;padding-block:clamp(72px,6vw,116px)}
+.vp-cats h2{margin:clamp(28px,2.6vw,48px) 0 0;font-weight:400;font-size:clamp(42px,4.3vw,84px);line-height:1;letter-spacing:-.045em}
+.vp-cat{border-color:#dcdce2;min-height:clamp(120px,10.8vw,208px)}
+.vp-cat h3{color:#0a0a0a;line-height:1.35}
+.vp-cat:hover{border-color:color-mix(in srgb,var(--accent) 45%,#dcdce2);background-color:#fafaff}
+.vp-cats .btn{margin-top:clamp(28px,2.6vw,48px)}
+
+@media (max-width:1000px){.vp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.vp-grid>*{grid-column:auto!important}}
+@media (max-width:640px){.vp-grid{grid-template-columns:1fr}}

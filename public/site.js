@@ -264,9 +264,9 @@
   const counters=[...document.querySelectorAll('[data-count]')];
   if(counters.length){
     const fmt=(el,n)=>{const g=el.dataset.grouped?Math.round(n).toLocaleString('en-US'):String(Math.round(n));el.textContent=(el.dataset.pre||'')+g+(el.dataset.suf||'')};
-    const run=el=>{const to=+el.dataset.count,t0=performance.now(),D=1800;(function f(t){const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,4);fmt(el,to*e);if(k<1)requestAnimationFrame(f)})(t0)};
+    const run=el=>{const to=+el.dataset.count,fr=+(el.dataset.from||0),t0=performance.now(),D=1800;(function f(t){const k=Math.min(1,(t-t0)/D),e=1-Math.pow(1-k,4);fmt(el,fr+(to-fr)*e);if(k<1)requestAnimationFrame(f)})(t0)};
     if(!reduce){
-      counters.forEach(el=>fmt(el,0));
+      counters.forEach(el=>fmt(el,+(el.dataset.from||0)));
       const cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){run(e.target);cio.unobserve(e.target)}}),{threshold:.5});
       counters.forEach(el=>cio.observe(el));
     }

@@ -244,6 +244,20 @@
     }
   }
 
+  // ---------- CONTROL+ panel: Ingest → Audit → Resolve → Optimize runs as a pipeline ----------
+  const fSteps=[...document.querySelectorAll('.cx-step')], fLine=document.querySelector('.cx-flow-line');
+  if(fSteps.length){
+    let fi=-1, ft=0;
+    const put=i=>{fSteps.forEach((s,k)=>{s.classList.toggle('on',k===i);s.classList.toggle('done',k<i)});if(fLine)fLine.style.setProperty('--p',((i+1)/fSteps.length).toFixed(3))};
+    const tick=()=>{fi=(fi+1)%(fSteps.length+1);put(fi===fSteps.length?-1:fi);ft=setTimeout(tick,fi===fSteps.length?900:1500)};
+    if(reduce) put(fSteps.length-1);
+    else{
+      new IntersectionObserver(es=>{clearTimeout(ft);if(es[0].isIntersecting)ft=setTimeout(tick,1200)},{threshold:.3}).observe(fSteps[0].parentElement);
+      fSteps.forEach((s,k)=>s.addEventListener('mouseenter',()=>{clearTimeout(ft);fi=k;put(k)}));
+      fSteps[0].parentElement.addEventListener('mouseleave',()=>{clearTimeout(ft);ft=setTimeout(tick,1200)});
+    }
+  }
+
   // ---------- Design page: drawn icons, card spotlight, count-up, image parallax ----------
   document.querySelectorAll('.dp-ico svg').forEach(s=>s.querySelectorAll('path,circle,rect,line,polyline').forEach(p=>{p.setAttribute('pathLength','1');p.classList.add('dl')}));
   document.querySelectorAll('.dp-card').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));

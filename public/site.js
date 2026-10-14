@@ -50,7 +50,7 @@
           frag.appendChild(w);
         });
         n.replaceWith(frag);
-      } else if(n.nodeType===1 && n.tagName!=='BR') walk(n);
+      } else if(n.nodeType===1 && n.tagName!=='BR' && !n.hasAttribute('data-nosplit')) walk(n);
     })};
     walk(el);
   });
@@ -257,6 +257,21 @@
       fSteps[0].parentElement.addEventListener('mouseleave',()=>{clearTimeout(ft);ft=setTimeout(tick,1200)});
     }
   }
+
+  // ---------- Events: countdown to the event start ----------
+  document.querySelectorAll('[data-countdown]').forEach(el=>{
+    const t=Date.parse(el.dataset.countdown), out=el.querySelector('.ev-count-txt');
+    if(!t||!out){el.hidden=true;return}
+    const p2=n=>String(n).padStart(2,'0');
+    const tick=()=>{
+      const ms=t-Date.now();
+      if(ms<=0){el.classList.add('live');out.textContent=el.dataset.live||'Happening now';return}
+      const d=Math.floor(ms/864e5),h=Math.floor(ms/36e5)%24,m=Math.floor(ms/6e4)%60,s=Math.floor(ms/1e3)%60;
+      out.textContent=(el.dataset.prefix||'Starts in')+' '+(d?d+'d ':'')+p2(h)+'h '+p2(m)+'m '+p2(s)+'s';
+      setTimeout(tick,1000-(Date.now()%1000));
+    };
+    tick();
+  });
 
   // ---------- Design page: drawn icons, card spotlight, count-up, image parallax ----------
   document.querySelectorAll('.dp-ico svg').forEach(s=>s.querySelectorAll('path,circle,rect,line,polyline').forEach(p=>{p.setAttribute('pathLength','1');p.classList.add('dl')}));

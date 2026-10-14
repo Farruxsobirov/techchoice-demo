@@ -700,8 +700,8 @@ html:not(.js) .dv-to{clip-path:none}
 .ev-grad{color:inherit;padding:0 .04em .14em 0;margin-bottom:-.14em}
 .js .split .ev-acc{display:inline-block;clip-path:inset(-10% 100% -20% 0);transition:clip-path 1.3s cubic-bezier(.7,0,.2,1) calc(var(--d,0ms) + .45s)}
 .js .split.in .ev-acc{clip-path:inset(-10% -2% -20% 0)}
-.ev .pp-label{color:var(--accent);font-weight:500;letter-spacing:.14em}
-.ev .ev-dark .pp-label,.ev .ev-hero .crumb{color:#ff4fc8}
+/* labels: same plain grey as the rest of the site */
+.ev-dark .pp-label{color:var(--pp-gray)}
 
 /* hero */
 .ev-hero{position:relative;overflow:hidden;min-height:min(100svh,1080px);justify-content:center;
@@ -711,7 +711,7 @@ html:not(.js) .dv-to{clip-path:none}
   box-shadow:0 0 0 5vw rgba(255,255,255,.028),0 0 0 10vw rgba(255,255,255,.02);animation:evspin 40s linear infinite}
 .ev-orbit::before{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;border-radius:50%;background:var(--grad);box-shadow:0 0 24px 6px rgba(235,0,166,.55)}
 @keyframes evspin{to{transform:rotate(360deg)}}
-.ev-hero h1{margin:clamp(20px,2.2vw,40px) 0 0;font-weight:400;font-size:clamp(46px,5vw,96px);line-height:.95;letter-spacing:-.05em}
+.ev-hero h1{margin:clamp(20px,2.2vw,40px) 0 0}
 .ev-hero .pp-lead{max-width:36em}
 .ev-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:clamp(28px,2.8vw,52px)}
 .btn.ev-white{--b-line:#fff;--b-bg:#fff;--b-fg:#0a0a0a;--b-fill:#0a0a0a;--b-fg-h:#fff}
@@ -728,7 +728,10 @@ html:not(.js) .dv-to{clip-path:none}
 .ev-grey{background:#f3f3f6;color:#0a0a0a}
 .ev-dark{background:#0b0a11;color:#fff}
 .ev-head{display:flex;align-items:flex-end;justify-content:space-between;gap:clamp(28px,4vw,72px);margin-bottom:clamp(40px,4vw,76px)}
-.ev-head h2,.ev-booth h2,.ev-end h2{margin:clamp(18px,1.6vw,28px) 0 0;font-weight:400;font-size:clamp(46px,5.6vw,108px);line-height:.95;letter-spacing:-.05em}
+.ev-head h2,.ev-booth h2,.ev-end h2{margin:clamp(18px,1.6vw,28px) 0 0}
+/* Title sizes: 66/67 px for main titles, 54/54 px for the smaller ones (at 1440 px wide, scaling down on smaller screens) */
+.ev-hero h1,.ev-head h2,.ev-booth h2,.ev-end h2{font-weight:400;font-size:clamp(40px,4.6vw,66px);line-height:1.015;letter-spacing:-.045em}
+.ev-svc h3,.ev-date h3,.ev-prize h3{font-weight:400;font-size:clamp(34px,3.75vw,54px);line-height:1;letter-spacing:-.0448em}
 .ev-side{max-width:27em;margin:0;font-size:clamp(16px,1.15vw,21px);line-height:1.6;color:#6b6b74}
 .ev-dark .ev-side{color:#b5b3bf}
 
@@ -737,7 +740,7 @@ html:not(.js) .dv-to{clip-path:none}
   transition:background-color .5s,padding .6s cubic-bezier(.16,1,.3,1)}
 .ev-svc:last-child{border-bottom:1px solid #dcdce2}
 .ev-svc-n{font-size:13px;color:#8a8a93;font-variant-numeric:tabular-nums}
-.ev-svc h3{margin:0;font-weight:400;font-size:clamp(46px,5vw,96px);letter-spacing:-.05em;line-height:1;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.ev-svc h3{margin:0;transition:transform .7s cubic-bezier(.16,1,.3,1)}
 .ev-svc{--hc:#FD2E44}
 .ev-svc:nth-child(3n+2){--hc:#EC01A0}
 .ev-svc:nth-child(3n){--hc:#5E41FB}
@@ -758,7 +761,7 @@ html:not(.js) .dv-to{clip-path:none}
 .ev-date.in::before{transform:none}
 html:not(.js) .ev-date::before{transform:none}
 .ev-date:hover{background:rgba(255,255,255,.07)}
-.ev-date h3{display:flex;align-items:center;gap:.25em;margin:clamp(16px,1.6vw,26px) 0 10px;font-weight:400;font-size:clamp(46px,4.4vw,84px);letter-spacing:-.05em;line-height:1}
+.ev-date h3{display:flex;align-items:center;gap:.25em;margin:clamp(16px,1.6vw,26px) 0 10px}
 .ev-date h3 svg{width:.5em;height:.5em;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 .ev-date:hover h3 svg{transform:translate(4px,-4px)}
 .ev-date p{margin:0;color:#c5c2d0}
@@ -767,7 +770,7 @@ html:not(.js) .ev-date::before{transform:none}
 .ev-steps h3{margin:0;font-weight:400;font-size:clamp(20px,1.6vw,30px);letter-spacing:-.02em}
 .ev-steps p{margin:12px 0 0;color:#b6b3c1;line-height:1.65}
 .ev-prize{display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-top:clamp(56px,5vw,84px);padding-top:clamp(36px,3.4vw,56px);border-top:1px solid rgba(255,255,255,.2)}
-.ev-prize h3{margin:0;font-weight:400;font-size:clamp(36px,3.2vw,62px);line-height:1;letter-spacing:-.045em}
+.ev-prize h3{margin:0}
 .ev-prize p{margin:0;max-width:30em;font-size:clamp(16px,1.2vw,22px);line-height:1.6;color:#c3c0cc}
 
 /* stats */
@@ -802,7 +805,7 @@ html:not(.js) .ev-stat::before{transform:none}
 .ev-map p{margin:clamp(14px,1.4vw,22px) 0 0;font-size:13px;color:#77777f}
 
 /* end */
-.ev-end h2{max-width:13em;font-size:clamp(50px,6.6vw,128px)}
+.ev-end h2{max-width:16em}
 .ev-end-text{margin:clamp(22px,2vw,36px) 0 0;max-width:34em;font-size:clamp(16px,1.25vw,22px);line-height:1.6;color:#bcbac8}
 .ev-end .btn{margin-top:clamp(24px,2.2vw,40px)}
 

@@ -697,7 +697,7 @@ html:not(.js) .dv-to{clip-path:none}
    Events page (/events)
    ========================================================= */
 .ev{--accent:#e000a6;--g1:#ff3041;--g2:#5744ff;--grad:linear-gradient(105deg,#ff3041,#eb00a6 50%,#5744ff)}
-.ev-grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;padding:0 .04em .14em 0;margin-bottom:-.14em}
+.ev-grad{color:inherit;padding:0 .04em .14em 0;margin-bottom:-.14em}
 .js .split .ev-acc{display:inline-block;clip-path:inset(-10% 100% -20% 0);transition:clip-path 1.3s cubic-bezier(.7,0,.2,1) calc(var(--d,0ms) + .45s)}
 .js .split.in .ev-acc{clip-path:inset(-10% -2% -20% 0)}
 .ev .pp-label{color:var(--accent);font-weight:500;letter-spacing:.14em}
@@ -711,7 +711,7 @@ html:not(.js) .dv-to{clip-path:none}
   box-shadow:0 0 0 5vw rgba(255,255,255,.028),0 0 0 10vw rgba(255,255,255,.02);animation:evspin 40s linear infinite}
 .ev-orbit::before{content:"";position:absolute;top:-6px;left:50%;width:12px;height:12px;border-radius:50%;background:var(--grad);box-shadow:0 0 24px 6px rgba(235,0,166,.55)}
 @keyframes evspin{to{transform:rotate(360deg)}}
-.ev-hero h1{margin:clamp(20px,2.2vw,40px) 0 0;font-weight:400;font-size:clamp(56px,8vw,152px);line-height:.92;letter-spacing:-.055em}
+.ev-hero h1{margin:clamp(20px,2.2vw,40px) 0 0;font-weight:400;font-size:clamp(46px,5vw,96px);line-height:.95;letter-spacing:-.05em}
 .ev-hero .pp-lead{max-width:36em}
 .ev-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:clamp(28px,2.8vw,52px)}
 .btn.ev-white{--b-line:#fff;--b-bg:#fff;--b-fg:#0a0a0a;--b-fill:#0a0a0a;--b-fg-h:#fff}
@@ -738,13 +738,17 @@ html:not(.js) .dv-to{clip-path:none}
 .ev-svc:last-child{border-bottom:1px solid #dcdce2}
 .ev-svc-n{font-size:13px;color:#8a8a93;font-variant-numeric:tabular-nums}
 .ev-svc h3{margin:0;font-weight:400;font-size:clamp(46px,5vw,96px);letter-spacing:-.05em;line-height:1;transition:transform .7s cubic-bezier(.16,1,.3,1)}
-.ev-svc:nth-child(2) h3{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ev-svc{--hc:#FD2E44}
+.ev-svc:nth-child(3n+2){--hc:#EC01A0}
+.ev-svc:nth-child(3n){--hc:#5E41FB}
+.ev-svc h3,.ev-svc-n,.ev-svc p b{transition:color .45s,transform .7s cubic-bezier(.16,1,.3,1)}
 .ev-svc p{margin:0;max-width:32em;font-size:clamp(15px,1.1vw,19px);line-height:1.6;color:#686873}
 .ev-svc p b{color:#0a0a0a;font-weight:500}
 .ev-circle{width:56px;height:56px;border-radius:50%;border:1px solid #cfcfd5;display:grid;place-items:center;transition:background-color .45s,border-color .45s,color .45s,transform .6s cubic-bezier(.16,1,.3,1)}
 .ev-circle svg{width:20px;height:20px}
-a.ev-svc:hover h3{transform:translateX(clamp(8px,1vw,18px))}
-a.ev-svc:hover .ev-circle{background:#0a0a0a;border-color:#0a0a0a;color:#fff;transform:rotate(45deg)}
+.ev-svc:hover h3{color:var(--hc);transform:translateX(clamp(8px,1vw,18px))}
+.ev-svc:hover .ev-svc-n,.ev-svc:hover p b{color:var(--hc)}
+.ev-svc:hover .ev-circle{background:var(--hc);border-color:var(--hc);color:#fff;transform:rotate(45deg)}
 
 /* after hours */
 .ev-dates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}

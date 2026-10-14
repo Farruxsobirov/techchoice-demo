@@ -14,6 +14,7 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       { protocol: 'https', hostname: '**.cloudwaysapps.com', pathname: '/wp-content/uploads/**' },
+      { protocol: 'https', hostname: 'techchoice.com', pathname: '/wp-content/uploads/**' },
       ...(wpHost ? [{ protocol: 'https', hostname: wpHost, pathname: '/wp-content/uploads/**' }] : []),
     ],
   },

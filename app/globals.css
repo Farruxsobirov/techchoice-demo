@@ -715,6 +715,7 @@ html:not(.js) .dv-to{clip-path:none}
 .ev-hero .pp-lead{max-width:36em}
 .ev-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:clamp(28px,2.8vw,52px)}
 .btn.ev-white{--b-line:#fff;--b-bg:#fff;--b-fg:#0a0a0a;--b-fill:#0a0a0a;--b-fg-h:#fff}
+.btn.ev-white:hover,.btn.ev-white:focus-visible{border-color:rgba(255,255,255,.5)}
 .ev-count{display:inline-flex;align-items:center;gap:10px;margin-left:clamp(4px,1vw,16px);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#d8d6e2;font-variant-numeric:tabular-nums}
 .ev-dot{width:8px;height:8px;border-radius:50%;background:#ff3041;box-shadow:0 0 0 0 rgba(255,48,65,.6);animation:evpulse 1.6s ease-out infinite}
 .ev-count.live .ev-dot{background:#28d17c}

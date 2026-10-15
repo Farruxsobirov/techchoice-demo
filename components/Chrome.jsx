@@ -111,6 +111,33 @@ export function FullMenu({ header: h, menus, footer: f, phases }) {
           ))}
         </nav>
         <div className="menu-side">
+          {/* Right column: the Header Menu (top-bar links) with its sub-items */}
+          {menus.header && menus.header.length ? (
+            <nav className="menu-links" aria-label="Header links">
+              <b>{f.explore_label}</b>
+              <ul>
+                {menus.header.map((m, i) => (
+                  <li key={i} style={{ '--k': i }}>
+                    <a href={m.url} target={m.target || undefined}>
+                      {m.title}
+                    </a>
+                    {m.children && m.children.length ? (
+                      <ul>
+                        {flatten(m.children).map((c, j) => (
+                          <li key={j} className={c.depth ? 'deep' : undefined}>
+                            <a href={c.url} target={c.target || undefined}>
+                              {c.title}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ) : null}
+          <div className="menu-side-foot">
           <div>
             <b>{f.address_label}</b>
             <Lines items={f.address} />
@@ -122,6 +149,7 @@ export function FullMenu({ header: h, menus, footer: f, phases }) {
             </div>
           ) : null}
           <span className="menu-close-note">{h.menu_close_note}</span>
+          </div>
         </div>
       </div>
     </div>

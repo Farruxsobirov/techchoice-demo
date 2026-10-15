@@ -38,6 +38,9 @@ export function Phases({ items }) {
   );
 }
 
+/** Sub-items (and their sub-items, indented) as one flat list for the dropdown. */
+const flatten = (items, depth = 0) => (items || []).flatMap((c) => [{ ...c, depth }, ...flatten(c.children, depth + 1)]);
+
 export function Header({ header: h, menus, homeHref = '#top' }) {
   const logoLight = src(h.logo_light, FALLBACK.logoLight);
   const logoDark = src(h.logo_dark, FALLBACK.logoDark);
@@ -48,11 +51,31 @@ export function Header({ header: h, menus, homeHref = '#top' }) {
         <img className="lg-dark" src={logoDark} alt="" aria-hidden="true" decoding="async" />
       </a>
       <nav className="nav">
-        {menus.header.map((m, i) => (
-          <a key={i} className="link" href={m.url} target={m.target || undefined}>
-            {m.title}
-          </a>
-        ))}
+        {menus.header.map((m, i) =>
+          m.children && m.children.length ? (
+            <div key={i} className="nav-item has-sub">
+              <a className="link" href={m.url} target={m.target || undefined} aria-haspopup="true" aria-expanded="false">
+                {m.title}
+                <svg className="chev" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
+                  <path d="M2.5 4.5 6 8l3.5-3.5" />
+                </svg>
+              </a>
+              <div className="sub">
+                <div className="sub-in">
+                  {flatten(m.children).map((c, j) => (
+                    <a key={j} href={c.url} target={c.target || undefined} className={c.depth ? 'deep' : undefined} style={{ '--j': j }}>
+                      {c.title}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a key={i} className="link" href={m.url} target={m.target || undefined}>
+              {m.title}
+            </a>
+          )
+        )}
         <Btn className="sm" href={h.cta_url} label={h.cta_label} />
         <button className="burger" id="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu">
           <i />
@@ -68,12 +91,23 @@ export function FullMenu({ header: h, menus, footer: f, phases }) {
     <div className="menu" id="menu" aria-hidden="true">
       <div className="menu-bg" />
       <div className="menu-inner">
-        <nav className="menu-nav" aria-label="Main">
+        <nav className="menu-nav" aria-label="Main" style={{ '--n': menus.fullscreen.length }}>
           {menus.fullscreen.map((m, i) => (
-            <a key={i} href={m.url} target={m.target || undefined}>
-              <small>{pad(i + 1)}</small>
-              <span className="t">{m.title}</span>
-            </a>
+            <Fragment key={i}>
+              <a href={m.url} target={m.target || undefined}>
+                <small>{pad(i + 1)}</small>
+                <span className="t">{m.title}</span>
+              </a>
+              {m.children && m.children.length ? (
+                <div className="menu-sub">
+                  {flatten(m.children).map((c, j) => (
+                    <a key={j} href={c.url} target={c.target || undefined}>
+                      <span className="t">{c.title}</span>
+                    </a>
+                  ))}
+                </div>
+              ) : null}
+            </Fragment>
           ))}
         </nav>
         <div className="menu-side">

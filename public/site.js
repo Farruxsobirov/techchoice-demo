@@ -273,6 +273,26 @@
     tick();
   });
 
+  // ---------- Header dropdowns: hover on desktop, tap to open on touch screens, Esc / outside click closes ----------
+  const subs=[...document.querySelectorAll('.nav .has-sub')];
+  if(subs.length){
+    const hoverable=matchMedia('(hover:hover)').matches;
+    const close=(except)=>subs.forEach(s=>{if(s!==except){s.classList.remove('open');s.querySelector('.link').setAttribute('aria-expanded','false')}});
+    subs.forEach(s=>{
+      const a=s.querySelector('.link');
+      s.addEventListener('mouseenter',()=>a.setAttribute('aria-expanded','true'));
+      s.addEventListener('mouseleave',()=>{s.classList.remove('open');a.setAttribute('aria-expanded','false')});
+      a.addEventListener('click',e=>{
+        if(hoverable||s.classList.contains('open')) return;   // second tap follows the link
+        e.preventDefault();close(s);s.classList.add('open');a.setAttribute('aria-expanded','true');
+      });
+      a.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();s.classList.add('open');const f=s.querySelector('.sub a');if(f)f.focus()}});
+    });
+    document.addEventListener('click',e=>{if(!e.target.closest('.has-sub'))close()});
+    addEventListener('keydown',e=>{if(e.key==='Escape'){const o=subs.find(s=>s.classList.contains('open')||s.contains(document.activeElement));close();if(o)o.querySelector('.link').focus()}});
+    addEventListener('scroll',()=>close(),{passive:true});
+  }
+
   // ---------- Design page: drawn icons, card spotlight, count-up, image parallax ----------
   document.querySelectorAll('.dp-ico svg').forEach(s=>s.querySelectorAll('path,circle,rect,line,polyline').forEach(p=>{p.setAttribute('pathLength','1');p.classList.add('dl')}));
   document.querySelectorAll('.dp-card').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')}));

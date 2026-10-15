@@ -87,57 +87,42 @@ export function Header({ header: h, menus, homeHref = '#top' }) {
 }
 
 export function FullMenu({ header: h, menus, footer: f, phases }) {
+  const items = menus.header && menus.header.length ? menus.header : menus.fullscreen;
   return (
     <div className="menu" id="menu" aria-hidden="true">
       <div className="menu-bg" />
       <div className="menu-inner">
-        <nav className="menu-nav" aria-label="Main" style={{ '--n': menus.fullscreen.length }}>
-          {menus.fullscreen.map((m, i) => (
-            <Fragment key={i}>
-              <a href={m.url} target={m.target || undefined}>
-                <small>{pad(i + 1)}</small>
-                <span className="t">{m.title}</span>
-              </a>
-              {m.children && m.children.length ? (
-                <div className="menu-sub">
-                  {flatten(m.children).map((c, j) => (
-                    <a key={j} href={c.url} target={c.target || undefined}>
-                      <span className="t">{c.title}</span>
-                    </a>
-                  ))}
+        {/* One menu: the Header Menu (Appearance → Menus → Header). Items with sub-items open with + */}
+        <nav className="menu-nav" aria-label="Main" style={{ '--n': items.length }}>
+          {items.map((m, i) => {
+            const kids = flatten(m.children);
+            return (
+              <div key={i} className="mi" style={{ '--k': i }}>
+                <div className="mi-row">
+                  <a href={m.url} target={m.target || undefined}>
+                    <small>{pad(i + 1)}</small>
+                    <span className="t">{m.title}</span>
+                  </a>
+                  {kids.length ? (
+                    <button className="mi-tog" type="button" aria-expanded="false" aria-controls={`mi-sub-${i}`} aria-label={`Show ${m.title} pages`} />
+                  ) : null}
                 </div>
-              ) : null}
-            </Fragment>
-          ))}
+                {kids.length ? (
+                  <div className="mi-sub" id={`mi-sub-${i}`}>
+                    <div className="mi-sub-in">
+                      {kids.map((c, j) => (
+                        <a key={j} href={c.url} target={c.target || undefined} className={c.depth ? 'deep' : undefined} style={{ '--j': j }} tabIndex={-1}>
+                          {c.title}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            );
+          })}
         </nav>
         <div className="menu-side">
-          {/* Right column: the Header Menu (top-bar links) with its sub-items */}
-          {menus.header && menus.header.length ? (
-            <nav className="menu-links" aria-label="Header links">
-              <b>{f.explore_label}</b>
-              <ul>
-                {menus.header.map((m, i) => (
-                  <li key={i} style={{ '--k': i }}>
-                    <a href={m.url} target={m.target || undefined}>
-                      {m.title}
-                    </a>
-                    {m.children && m.children.length ? (
-                      <ul>
-                        {flatten(m.children).map((c, j) => (
-                          <li key={j} className={c.depth ? 'deep' : undefined}>
-                            <a href={c.url} target={c.target || undefined}>
-                              {c.title}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          ) : null}
-          <div className="menu-side-foot">
           <div>
             <b>{f.address_label}</b>
             <Lines items={f.address} />
@@ -149,7 +134,6 @@ export function FullMenu({ header: h, menus, footer: f, phases }) {
             </div>
           ) : null}
           <span className="menu-close-note">{h.menu_close_note}</span>
-          </div>
         </div>
       </div>
     </div>

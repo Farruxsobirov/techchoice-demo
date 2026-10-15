@@ -273,6 +273,12 @@
     tick();
   });
 
+  // ---------- Full-screen menu accordion (+ / −): one open at a time ----------
+  const mis=[...document.querySelectorAll('.menu-nav .mi')];
+  const setMi=(mi,on)=>{const b=mi.querySelector('.mi-tog');if(!b)return;mi.classList.toggle('open',on);b.setAttribute('aria-expanded',on?'true':'false');mi.querySelectorAll('.mi-sub a').forEach(a=>a.tabIndex=on?0:-1)};
+  mis.forEach(mi=>{const b=mi.querySelector('.mi-tog');if(b)b.addEventListener('click',()=>{const on=!mi.classList.contains('open');mis.forEach(o=>o!==mi&&setMi(o,false));setMi(mi,on)})});
+  if(menu) new MutationObserver(()=>{if(!menu.classList.contains('open'))setTimeout(()=>mis.forEach(o=>setMi(o,false)),900)}).observe(menu,{attributes:true,attributeFilter:['class']});
+
   // ---------- Header dropdowns: hover on desktop, tap to open on touch screens, Esc / outside click closes ----------
   const subs=[...document.querySelectorAll('.nav .has-sub')];
   if(subs.length){

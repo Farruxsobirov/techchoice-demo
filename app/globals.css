@@ -9,7 +9,7 @@
   --line:rgba(255,255,255,.14);
   --violet:#b44cff;
   --font:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
-  --gut:clamp(16px,5.73vw,110px);
+  --gut:16px; /* side padding of every section — see the responsive container below */
   --mask:0;            /* 0..1, driven by scroll */
   color-scheme:dark;
 }
@@ -1001,3 +1001,19 @@ html:not(.js) .ev-stat::before{transform:none}
 .menu.open .menu-nav .mi:first-child{border-top-color:rgba(255,255,255,.08)}
 .menu.open .menu-nav{opacity:1;transition:none}
 .menu:not(.open) .mi-tog{transition-delay:0s}
+
+/* ==========================================
+   GLOBAL RESPONSIVE CONTAINER
+   Mobile-first gutters: 16 / 24 / 40 / 80 / 100 px. Every section, the header, menu and footer use var(--gut),
+   so the whole site follows these breakpoints. From 1720px the content area is capped at 1920px (centred);
+   section backgrounds still run edge to edge.
+   ========================================== */
+@media (min-width:600px){:root{--gut:24px}}
+@media (min-width:960px){:root{--gut:40px}}
+@media (min-width:1280px){:root{--gut:80px}}
+@media (min-width:1720px){:root{--gut:max(100px,calc((100vw - 1920px) / 2 + 100px))}}
+.container{width:100%;max-width:100%;margin-inline:auto;padding-inline:16px}
+@media (min-width:600px){.container{padding-inline:24px}}
+@media (min-width:960px){.container{padding-inline:40px}}
+@media (min-width:1280px){.container{padding-inline:80px}}
+@media (min-width:1720px){.container{max-width:1920px;padding-inline:100px}}

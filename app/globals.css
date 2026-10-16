@@ -1017,3 +1017,11 @@ html:not(.js) .ev-stat::before{transform:none}
 @media (min-width:960px){.container{padding-inline:40px}}
 @media (min-width:1280px){.container{padding-inline:80px}}
 @media (min-width:1720px){.container{max-width:1920px;padding-inline:100px}}
+
+/* Slider markers: one continuous gradient across all markers — red at the start of the first, blue at the end of the last */
+.bars{--seg:44px}
+.bars button i{background:linear-gradient(90deg,#FD2E44,#EC01A0 50%,#5E41FB);background-size:calc(var(--n,3) * var(--seg) - 4px) 100%;background-position:calc(var(--i,0) * var(--seg) * -1) 0;
+  transform:none;clip-path:inset(0 100% 0 0)}
+.bars button.on i{animation:barfill var(--dur,6s) linear forwards}
+.bars button.done i{clip-path:inset(0)}
+@keyframes barfill{to{clip-path:inset(0)}}

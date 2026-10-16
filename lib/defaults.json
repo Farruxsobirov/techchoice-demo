@@ -40,7 +40,7 @@
   "process": {
     "label": "02 / How we work",
     "badge": "CYaaS",
-    "badge_sub": "Cover your as a service",
+    "badge_sub": "",
     "title": "Design. Deliver. Control.",
     "note": ["No fourth phase called", "“It’s complicated.”"],
     "slides": [

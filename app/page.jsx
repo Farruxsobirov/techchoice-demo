@@ -96,7 +96,7 @@ export default async function Home() {
                 {pr.badge}
                 <sup>®</sup>
               </b>
-              <small>{pr.badge_sub}</small>
+              {pr.badge_sub ? <small>{pr.badge_sub}</small> : null}
             </span>
           </div>
           <div className="p-head">
@@ -140,9 +140,9 @@ export default async function Home() {
 
           <div className="p-foot">
             <span>{pr.foot}</span>
-            <div className="bars" id="bars">
+            <div className="bars" id="bars" style={{ '--n': slides.length }}>
               {slides.map((s, i) => (
-                <button key={i} type="button" aria-label={`Go to ${s.title}`}>
+                <button key={i} type="button" aria-label={`Go to ${s.title}`} style={{ '--i': i }}>
                   <i />
                 </button>
               ))}

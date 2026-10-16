@@ -1034,3 +1034,6 @@ html:not(.js) .ev-stat::before{transform:none}
 .nf-num{display:block;margin-top:clamp(16px,2vw,32px);font-weight:300;font-size:clamp(96px,14vw,260px);line-height:.85;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35)}
 .nf-hero h1{margin:clamp(18px,2vw,32px) 0 0;font-weight:400;font-size:clamp(40px,4.6vw,66px);line-height:1.015;letter-spacing:-.045em}
 .nf-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,2.6vw,48px)}
+.nf-hero{align-items:center;text-align:center}
+.nf-hero .pp-lead{margin-inline:auto}
+.nf-actions{justify-content:center}

@@ -10,6 +10,15 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "techchoice-demo" }],
+  // Page cache (see open-next.config.ts). The R2 bucket must exist in the account: R2 → Create bucket → "techchoice-cache".
+  "r2_buckets": [{ "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "techchoice-cache" }],
+  "durable_objects": {
+    "bindings": [
+      { "name": "NEXT_CACHE_DO_QUEUE", "class_name": "DOQueueHandler" },
+      { "name": "NEXT_TAG_CACHE_DO_SHARDED", "class_name": "DOShardedTagCache" }
+    ]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["DOQueueHandler", "DOShardedTagCache"] }],
   "observability": { "enabled": true },
   // Keep the *.workers.dev address (and per-version preview URLs) switched on in every account.
   "workers_dev": true,
@@ -17,8 +26,8 @@
   // Variables set in the Cloudflare dashboard (e.g. REVALIDATE_SECRET) are kept on every deploy.
   "keep_vars": true,
   "vars": {
-    // Tells the site it runs on Cloudflare: pages are rendered per request (always fresh from WordPress)
-    // and images are served straight from WordPress (no Vercel image optimizer).
+    // Tells the site it runs on Cloudflare: images are served straight from WordPress (no Vercel image optimizer).
+    // WP_URL is also used at build time (scripts/cf-build.mjs reads it from here).
     "TC_TARGET": "cloudflare",
     "WP_URL": "https://wordpress-1606055-6708565.cloudwaysapps.com"
   }

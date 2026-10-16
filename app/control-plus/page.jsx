@@ -114,6 +114,7 @@ export default async function ControlPlusPage() {
         </section>
 
         {/* ---------- Pricing ---------- */}
+{p.pricing.show ? (
         <section className="cx-pricing" id="pricing" data-theme="light">
           <span className="pp-label rv">{p.pricing.label}</span>
           <h2 className="split">{p.pricing.title}</h2>
@@ -131,6 +132,7 @@ export default async function ControlPlusPage() {
           </div>
           {p.pricing.note ? <p className="cx-p-note rv">{p.pricing.note}</p> : null}
         </section>
+        ) : null}
 
         {/* ---------- Call to action ---------- */}
         <section className="cx-cta" id="start" data-theme="dark">

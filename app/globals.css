@@ -566,7 +566,7 @@ html:not(.js) .dv-to{clip-path:none}
 @media (prefers-reduced-motion:reduce){.cyc-arrow.on svg{animation:none!important}.cyc-step{transition:none}}
 
 /* =========================================================
-   CONTROL+ page (/control-plus)
+   aaSet page (/aaset, formerly CONTROL+)
    ========================================================= */
 .cx-hero{min-height:0}
 .cx-hero h1{margin:clamp(24px,2.6vw,48px) 0 0;font-size:clamp(42px,5vw,96px);line-height:.93;letter-spacing:-.05em;max-width:17em;text-wrap:wrap}

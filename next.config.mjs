@@ -9,6 +9,10 @@ const wpHost = (() => {
 
 const nextConfig = {
   reactStrictMode: true,
+  // CONTROL+ was renamed to aaSet: old links keep working.
+  async redirects() {
+    return [{ source: '/control-plus', destination: '/aaset', permanent: true }];
+  },
   images: {
     unoptimized: process.env.TC_TARGET === 'cloudflare',
     formats: ['image/avif', 'image/webp'],

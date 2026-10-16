@@ -3,7 +3,7 @@ import { getProcessPage, PHASE_FALLBACK_IMAGES } from '../../lib/process';
 import { src } from '../../lib/content';
 import { rimg } from '../../lib/img';
 import { ArrowDown } from '../../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad, HeroTitle } from '../../components/Chrome';
 
 // Same refresh rules as the home page: instant on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -53,7 +53,7 @@ export default async function ProcessPage() {
             <div className="pp-hero-copy">
               <p className="crumb rv">{p.hero.breadcrumb}</p>
               <h1 className="split chars" data-delay="200">
-                <Lines items={p.hero.title} />
+                <HeroTitle items={p.hero.title} />
               </h1>
               <p className="pp-lead rv d2">{p.hero.lead}</p>
             </div>

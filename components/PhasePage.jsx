@@ -1,7 +1,7 @@
 import { splitStat } from '../lib/phase';
 import { LineIcon } from './Icons';
 import { rimg } from '../lib/img';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines } from './Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle } from './Chrome';
 
 /* Shared layout of the phase pages (Design, Deliver, …). */
 
@@ -95,7 +95,7 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
           <div className="dp-hero-grid">
             <div className="dp-hero-copy">
               <h1 className="split chars" data-delay="200">
-                <Lines items={p.hero.title} />
+                <HeroTitle items={p.hero.title} />
               </h1>
               <p className="pp-lead rv d2">{p.hero.lead}</p>
             </div>

@@ -1,6 +1,6 @@
 import { getControlPlusPage } from '../../lib/controlPlus';
 import { LineIcon } from '../../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle } from '../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -33,7 +33,7 @@ export default async function ControlPlusPage() {
         <section className="pp-hero cx-hero" id="top" data-theme="dark" data-hero>
           <p className="crumb rv">{p.hero.breadcrumb}</p>
           <h1 className="split chars" data-delay="200">
-            <Lines items={p.hero.title} />
+            <HeroTitle items={p.hero.title} />
           </h1>
           <p className="pp-lead rv d2">{p.hero.lead}</p>
 

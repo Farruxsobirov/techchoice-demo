@@ -16,6 +16,30 @@ export function Lines({ items }) {
   ));
 }
 
+/**
+ * Hero title. If it contains a colon, the part before it stays as the big title and everything after it
+ * moves to its own line, smaller than the title but larger than the lead text below
+ * (e.g. "CYaaS:" / "Cover Your as a Service"). Titles without a colon are unchanged.
+ */
+export function HeroTitle({ items }) {
+  const list = items || [];
+  const at = list.findIndex((l) => /:\s/.test(l));
+  if (at < 0) return <Lines items={list} />;
+  const i = list[at].indexOf(':');
+  const head = [...list.slice(0, at), list[at].slice(0, i + 1)];
+  const rest = [list[at].slice(i + 1).trim(), ...list.slice(at + 1)].filter(Boolean);
+  return (
+    <>
+      <Lines items={head} />
+      {rest.length ? (
+        <span className="h1-sub">
+          <Lines items={rest} />
+        </span>
+      ) : null}
+    </>
+  );
+}
+
 export function Btn({ href, label, className = '' }) {
   return (
     <a className={`btn ${className}`.trim()} href={href || '#'}>

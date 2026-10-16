@@ -1025,3 +1025,6 @@ html:not(.js) .ev-stat::before{transform:none}
 .bars button.on i{animation:barfill var(--dur,6s) linear forwards}
 .bars button.done i{clip-path:inset(0)}
 @keyframes barfill{to{clip-path:inset(0)}}
+
+/* Hero titles with a colon: text after the colon on its own line, between title and lead in size */
+.h1-sub{display:block;margin-top:.22em;font-size:.56em;line-height:1.06;letter-spacing:-.035em}

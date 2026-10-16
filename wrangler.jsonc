@@ -1,0 +1,22 @@
+/**
+ * Cloudflare Workers config (used only when deploying to Cloudflare; Vercel ignores this file).
+ * Build: npm run cf:build   Deploy: npm run cf:deploy   (or connect the GitHub repo in the Cloudflare dashboard)
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "techchoice-demo",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-09-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "techchoice-demo" }],
+  "observability": { "enabled": true },
+  // Variables set in the Cloudflare dashboard (e.g. REVALIDATE_SECRET) are kept on every deploy.
+  "keep_vars": true,
+  "vars": {
+    // Tells the site it runs on Cloudflare: pages are rendered per request (always fresh from WordPress)
+    // and images are served straight from WordPress (no Vercel image optimizer).
+    "TC_TARGET": "cloudflare",
+    "WP_URL": "https://wordpress-1606055-6708565.cloudwaysapps.com"
+  }
+}

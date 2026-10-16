@@ -10,6 +10,7 @@ const wpHost = (() => {
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    unoptimized: process.env.TC_TARGET === 'cloudflare',
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
@@ -20,3 +21,4 @@ const nextConfig = {
   },
 };
 export default nextConfig;
+

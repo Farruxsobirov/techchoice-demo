@@ -1028,3 +1028,9 @@ html:not(.js) .ev-stat::before{transform:none}
 
 /* Hero titles with a colon: text after the colon on its own line, between title and lead in size */
 .h1-sub{display:block;margin-top:.22em;font-size:.56em;line-height:1.06;letter-spacing:-.035em}
+
+/* 404 */
+.nf-hero{justify-content:center}
+.nf-num{display:block;margin-top:clamp(16px,2vw,32px);font-weight:300;font-size:clamp(96px,14vw,260px);line-height:.85;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.35)}
+.nf-hero h1{margin:clamp(18px,2vw,32px) 0 0;font-weight:400;font-size:clamp(40px,4.6vw,66px);line-height:1.015;letter-spacing:-.045em}
+.nf-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(28px,2.6vw,48px)}

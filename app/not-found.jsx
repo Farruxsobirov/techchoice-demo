@@ -21,7 +21,6 @@ export default async function NotFound() {
           <p className="pp-lead rv d2">It may have been moved or taken down. Everything else is still where you left it.</p>
           <div className="nf-actions rv d3">
             <Btn href="/" label="Back to home" />
-            <Btn href="/#contact" label="Let’s talk" />
           </div>
         </section>
       </main>

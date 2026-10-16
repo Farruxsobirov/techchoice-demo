@@ -11,6 +11,9 @@
   "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
   "services": [{ "binding": "WORKER_SELF_REFERENCE", "service": "techchoice-demo" }],
   "observability": { "enabled": true },
+  // Keep the *.workers.dev address (and per-version preview URLs) switched on in every account.
+  "workers_dev": true,
+  "preview_urls": true,
   // Variables set in the Cloudflare dashboard (e.g. REVALIDATE_SECRET) are kept on every deploy.
   "keep_vars": true,
   "vars": {

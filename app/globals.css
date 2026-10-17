@@ -694,7 +694,7 @@ html:not(.js) .dv-to{clip-path:none}
 .sv-cta h2{font-size:clamp(42px,4.3vw,84px)}
 
 /* =========================================================
-   Events page (/events)
+   Events page (/gartner, formerly /events)
    ========================================================= */
 .ev{--accent:#e000a6;--g1:#ff3041;--g2:#5744ff;--grad:linear-gradient(105deg,#ff3041,#eb00a6 50%,#5744ff)}
 .ev-grad{color:inherit;padding:0 .04em .14em 0;margin-bottom:-.14em}

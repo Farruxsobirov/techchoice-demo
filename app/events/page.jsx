@@ -66,12 +66,6 @@ export default async function EventsPage() {
           <div className="ev-actions rv d3">
             {hero.button_label ? <Btn className="ev-white" href={hero.button_url} label={hero.button_label} /> : null}
             {hero.button2_label ? <Btn href={hero.button2_url} label={hero.button2_label} /> : null}
-            {hero.event_start ? (
-              <span className="ev-count" data-countdown={hero.event_start} aria-live="off">
-                <i className="ev-dot" aria-hidden="true" />
-                <span className="ev-count-txt">&nbsp;</span>
-              </span>
-            ) : null}
           </div>
           <div className="ev-facts">
             {hero.facts.map((x, i) => (

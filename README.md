@@ -15,7 +15,7 @@ Anything empty or unreachable falls back to `lib/defaults.json` and the files in
 
 | Name | Value |
 |---|---|
-| `WP_URL` | `https://wordpress-1606055-6708565.cloudwaysapps.com` (no trailing slash) |
+| `WP_URL` | `https://cms.techchoice.com` (no trailing slash) |
 | `REVALIDATE_SECRET` | the **Refresh secret** from WordPress → Site Settings → Connection |
 | `WP_SLIDES_REST_BASE` | optional, default `process-slides` |
 | `WP_HOME_SLUG` | optional, only used if no static homepage is set; default `home` |

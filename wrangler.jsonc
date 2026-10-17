@@ -29,6 +29,6 @@
     // Tells the site it runs on Cloudflare: images are served straight from WordPress (no Vercel image optimizer).
     // WP_URL is also used at build time (scripts/cf-build.mjs reads it from here).
     "TC_TARGET": "cloudflare",
-    "WP_URL": "https://wordpress-1606055-6708565.cloudwaysapps.com"
+    "WP_URL": "https://cms.techchoice.com"
   }
 }

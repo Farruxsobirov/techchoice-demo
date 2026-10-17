@@ -8,7 +8,8 @@ const src = readFileSync(new URL('../wrangler.jsonc', import.meta.url), 'utf8')
   .replace(/,(\s*[}\]])/g, '$1');
 const vars = JSON.parse(src).vars || {};
 const env = { ...process.env };
-for (const [k, v] of Object.entries(vars)) if (env[k] === undefined) env[k] = String(v);
+// wrangler.jsonc is the source of truth (the build machine may still carry old values).
+for (const [k, v] of Object.entries(vars)) env[k] = String(v);
 
 const r = spawnSync('npx', ['opennextjs-cloudflare', 'build', ...process.argv.slice(2)], { stdio: 'inherit', env, shell: process.platform === 'win32' });
 process.exit(r.status ?? 1);

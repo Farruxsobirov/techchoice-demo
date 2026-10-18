@@ -197,7 +197,11 @@ export default async function Home() {
               <Btn className="ink rv d1" href={ct.button_link} label={ct.button_label} />
             </div>
             <figure className="c-visual" id="cVisual">
-              <img {...rimg(src(ct.image, FALLBACK.contact), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 50vw' })} alt={ct.image?.alt || ''} loading="lazy" decoding="async" />
+              {ct.video ? (
+                <video src={ct.video} poster={ct.image ? ct.image.url : undefined} muted loop playsInline preload="none" data-autoplay="" aria-hidden="true" />
+              ) : (
+                <img {...rimg(src(ct.image, FALLBACK.contact), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 50vw' })} alt={ct.image?.alt || ''} loading="lazy" decoding="async" />
+              )}
               <figcaption>
                 {ct.caption.map((line, i) => (
                   <span key={i} className="ln">

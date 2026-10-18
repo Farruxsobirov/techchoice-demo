@@ -124,12 +124,15 @@
       s.setAttribute('aria-hidden',off===0?'false':'true');
     });
     items.forEach((it,i)=>it.classList.toggle('on',i===cur));
+    vids();
     bars.forEach((b,i)=>{b.classList.remove('on');b.classList.toggle('done',i<cur);const ii=b.querySelector('i');ii.style.animation='none';void ii.offsetWidth;ii.style.animation=''});
     bars[cur].classList.add('on');
     count.textContent=String(cur+1).padStart(2,'0')+' — '+String(n).padStart(2,'0');
     schedule();
   }
   function go(i){cur=((i%n)+n)%n;render()}
+  // Background videos: only the active slide plays (muted, looped); nothing loads until it's shown.
+  function vids(){slides.forEach((s,i)=>{const v=s.querySelector('video');if(!v)return;if(i===cur&&inView){const p=v.play();if(p&&p.catch)p.catch(()=>{})}else v.pause()})}
   function schedule(){clearTimeout(timer);if(reduce||!inView||hovering)return;timer=setTimeout(()=>go(cur+1),DUR)}
   document.documentElement.style.setProperty('--dur',DUR/1000+'s');
   document.getElementById('prev').addEventListener('click',e=>{e.stopPropagation();go(cur-1)});
@@ -145,7 +148,7 @@
   // keyboard when section is focused/in view
   addEventListener('keydown',e=>{if(!inView)return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
   // autoplay only while the section is on screen
-  new IntersectionObserver(es=>{inView=es[0].isIntersecting;inView?render():clearTimeout(timer);slider.classList.toggle('paused',!inView)},{threshold:.35}).observe(slider);
+  new IntersectionObserver(es=>{inView=es[0].isIntersecting;inView?render():(clearTimeout(timer),vids());slider.classList.toggle('paused',!inView)},{threshold:.35}).observe(slider);
   render();
 
   }

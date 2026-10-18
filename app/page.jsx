@@ -17,6 +17,15 @@ export async function generateMetadata() {
 
 const delay = (i) => (i > 0 ? ` d${Math.min(i, 3)}` : '');
 
+/** Slide tint (WordPress: red / pink / purple) → the two colours of the overlay gradient. */
+function tintVars(hex) {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex || '');
+  const n = parseInt(m ? m[1] : 'EC01A0', 16);
+  const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  const light = (c) => Math.round(c + (255 - c) * 0.82);
+  return { '--t1': `rgba(${light(r)},${light(g)},${light(b)},.75)`, '--t2': `rgba(${r},${g},${b},.9)` };
+}
+
 export default async function Home() {
   const c = await getContent();
   const { header: h, menus, hero, about, process: pr, contact: ct, footer: f } = c;
@@ -108,8 +117,12 @@ export default async function Home() {
 
           <div className="slider rv d2" id="slider" data-cursor="Drag" data-autoplay={pr.autoplay_seconds}>
             {slides.map((s, i) => (
-              <div key={i} className={`slide${s.original_colors ? ' keep' : ''}`} data-i={i} role="group" aria-label={`${i + 1} of ${slides.length}: ${s.title}`}>
-                <img {...rimg(src(s.image, FALLBACK.slides[i] || FALLBACK.slides[0]), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 60vw' })} alt={s.image?.alt || ''} loading="lazy" decoding="async" />
+              <div key={i} className={`slide${s.original_colors ? ' keep' : ''}`} style={tintVars(s.tint)} data-i={i} role="group" aria-label={`${i + 1} of ${slides.length}: ${s.title}`}>
+                {s.video ? (
+                  <video src={s.video} poster={s.image ? s.image.url : undefined} muted loop playsInline preload="none" aria-hidden="true" />
+                ) : (
+                  <img {...rimg(src(s.image, FALLBACK.slides[i] || FALLBACK.slides[0]), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 60vw' })} alt={s.image?.alt || ''} loading="lazy" decoding="async" />
+                )}
               </div>
             ))}
             <button className="arrow prev" id="prev" type="button" aria-label="Previous">

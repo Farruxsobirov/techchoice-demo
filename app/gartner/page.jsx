@@ -1,4 +1,5 @@
 import { getEventsPage } from '../../lib/events';
+import BoothMap from '../../components/BoothMap';
 import { ArrowUpRight } from '../../components/Icons';
 import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad } from '../../components/Chrome';
 
@@ -172,13 +173,11 @@ export default async function EventsPage() {
             </div>
             <div className="ev-map rv d1">
               <span className="pp-label">{booth.map_label}</span>
-              <div className="ev-grid">
-                {booth.booths.map((n, i) => (
-                  <span key={i} className={`ev-cell${n === booth.booth ? ' on' : ''}`} style={{ '--i': i }}>
-                    {n}
-                  </span>
-                ))}
-              </div>
+              {booth.map_image ? (
+                <img className="ev-plan" src={booth.map_image.url} alt={booth.map_image.alt || booth.map_label} loading="lazy" decoding="async" />
+              ) : (
+                <BoothMap booth={booth.booth} tag={booth.map_tag} label={booth.map_label} />
+              )}
               <p>{booth.map_note}</p>
             </div>
           </div>

@@ -106,32 +106,41 @@ export default async function ControlPlusPage() {
         </section>
 
         {/* ---------- Performance guarantee ---------- */}
-        <section className="cx-guarantee" id="guarantee" data-theme="dark">
-          <span className="pp-label rv">{p.guarantee.label}</span>
-          <h2 className="split">{p.guarantee.title}</h2>
-          <p className="cx-g-body rv d1">{p.guarantee.body}</p>
-          {p.guarantee.note ? <p className="cx-g-note rv d2">{p.guarantee.note}</p> : null}
-        </section>
+        {p.guarantee.show ? (
+          <section className="cx-guarantee" id="guarantee" data-theme="dark">
+            {p.guarantee.label ? <span className="pp-label rv">{p.guarantee.label}</span> : null}
+            {p.guarantee.title ? <h2 className="split">{p.guarantee.title}</h2> : null}
+            {p.guarantee.body ? <p className="cx-g-body rv d1">{p.guarantee.body}</p> : null}
+            {p.guarantee.note ? <p className="cx-g-note rv d2">{p.guarantee.note}</p> : null}
+          </section>
+        ) : null}
 
         {/* ---------- Pricing ---------- */}
-{p.pricing.show ? (
-        <section className="cx-pricing" id="pricing" data-theme="light">
-          <span className="pp-label rv">{p.pricing.label}</span>
-          <h2 className="split">{p.pricing.title}</h2>
-          <p className="cx-p-lead rv d1">{p.pricing.lead}</p>
-          <div className="cx-tiers" style={{ '--n': p.pricing.tiers.length }}>
-            {p.pricing.tiers.map((t, i) => (
-              <div key={i} className={`cx-tier rv${t.highlight ? ' hl' : ''}`} style={{ transitionDelay: `${i * 0.08}s` }}>
-                <span className="cx-t-label">{t.label}</span>
-                <b className="cx-t-value" {...countAttrs(t.value)}>
-                  {t.value}
-                </b>
-                <span className="cx-t-cap">{t.caption}</span>
+        {p.pricing.show ? (
+          <section className="cx-pricing" id="pricing" data-theme="light">
+            {p.pricing.label ? <span className="pp-label rv">{p.pricing.label}</span> : null}
+            {p.pricing.title ? <h2 className="split">{p.pricing.title}</h2> : null}
+            {p.pricing.lead ? <p className="cx-p-lead rv d1">{p.pricing.lead}</p> : null}
+            {p.pricing.image ? (
+              <figure className="cx-p-img rv d1">
+                <img src={p.pricing.image.url} alt={p.pricing.image.alt} loading="lazy" decoding="async" />
+              </figure>
+            ) : null}
+            {p.pricing.tiers.length ? (
+              <div className="cx-tiers" style={{ '--n': p.pricing.tiers.length }}>
+                {p.pricing.tiers.map((t, i) => (
+                  <div key={i} className={`cx-tier rv${t.highlight ? ' hl' : ''}`} style={{ transitionDelay: `${i * 0.08}s` }}>
+                    <span className="cx-t-label">{t.label}</span>
+                    <b className="cx-t-value" {...countAttrs(t.value)}>
+                      {t.value}
+                    </b>
+                    <span className="cx-t-cap">{t.caption}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          {p.pricing.note ? <p className="cx-p-note rv">{p.pricing.note}</p> : null}
-        </section>
+            ) : null}
+            {p.pricing.note ? <p className="cx-p-note rv">{p.pricing.note}</p> : null}
+          </section>
         ) : null}
 
         {/* ---------- Call to action ---------- */}

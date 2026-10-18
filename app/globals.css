@@ -1040,3 +1040,5 @@ html:not(.js) .ev-stat::before{transform:none}
 .nf-hero .pp-lead{margin-inline:auto}
 .nf-actions{justify-content:center}
 @media (max-width:560px){.ev-map{padding:14px}}
+
+.cx-p-img{margin:clamp(24px,3vw,48px) 0 0}.cx-p-img img{display:block;width:100%;height:auto}

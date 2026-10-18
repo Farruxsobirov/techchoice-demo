@@ -18,6 +18,14 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Script src="/site.js" strategy="afterInteractive" />
+        {/* Cloudflare Web Analytics (cookie-free visitor stats) — live site only */}
+        {process.env.TC_TARGET === 'cloudflare' ? (
+          <Script
+            src="https://static.cloudflareinsights.com/beacon.min.js"
+            strategy="lazyOnload"
+            data-cf-beacon='{"token": "d06f3cc5057246d08c10ab0e180e6d1e"}'
+          />
+        ) : null}
       </body>
     </html>
   );

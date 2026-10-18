@@ -106,6 +106,13 @@
   sync();
   }
 
+  // ---------- Picture-frame videos (WordPress mp4): play only while visible ----------
+  const fvids=[...document.querySelectorAll('video[data-autoplay]')];
+  if(fvids.length){
+    const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){const p=v.play();if(p&&p.catch)p.catch(()=>{})}else v.pause()}),{threshold:.1});
+    fvids.forEach(v=>{v.muted=true;vio.observe(v)});
+  }
+
   // ---------- How we work slider (home page only) ----------
   const slider=document.getElementById('slider');
   if(slider){

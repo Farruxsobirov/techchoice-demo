@@ -115,7 +115,7 @@ export default async function Home() {
             </p>
           </div>
 
-          <div className="slider rv d2" id="slider" data-cursor="Drag" data-autoplay={pr.autoplay_seconds}>
+          <div className="slider rv d2" id="slider" data-autoplay={pr.autoplay_seconds}>
             {slides.map((s, i) => (
               <div key={i} className={`slide${s.original_colors ? ' keep' : ''}`} style={tintVars(s.tint)} data-i={i} role="group" aria-label={`${i + 1} of ${slides.length}: ${s.title}`}>
                 {s.video ? (

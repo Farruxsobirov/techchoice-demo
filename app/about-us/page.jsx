@@ -1,4 +1,5 @@
 import { getAboutPage } from '../../lib/about';
+import HeroMedia from '../../components/HeroMedia';
 import { rimg } from '../../lib/img';
 import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle } from '../../components/Chrome';
 
@@ -82,9 +83,7 @@ export default async function AboutPage() {
         <section className="ab-boston" id="boston" data-theme="light">
           <span className="pp-label rv">{p.boston.label}</span>
           <div className="ab-boston-grid">
-            <figure className="ab-img rv">
-              <img {...rimg(p.boston.image.url, { widths: [640, 1080, 1920], sizes: '(max-width: 1000px) 100vw, 45vw' })} alt={p.boston.image.alt} data-parallax="0.1" loading="lazy" decoding="async" />
-            </figure>
+            <HeroMedia className="ab-img rv" image={p.boston.image} video={p.boston.video} sizes="(max-width: 1000px) 100vw, 45vw" parallax="0.1" />
             <div className="ab-boston-copy">
               <h2 className="split">{p.boston.title}</h2>
               <p className="ab-text rv d1">{p.boston.text}</p>

@@ -1,4 +1,5 @@
 import { splitStat } from '../lib/phase';
+import HeroMedia from '../components/HeroMedia';
 import { LineIcon } from './Icons';
 import { rimg } from '../lib/img';
 import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle } from './Chrome';
@@ -102,9 +103,7 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
             {p.hero.path ? (
               <CriticalPath path={p.hero.path} />
             ) : p.hero.image ? (
-              <figure className="dp-hero-img rv d1">
-                <img {...rimg(p.hero.image.url, { widths: [640, 1080, 1920], sizes: '(max-width: 1000px) 100vw, 40vw' })} alt={p.hero.image.alt} data-parallax="0.12" fetchPriority="high" decoding="async" />
-              </figure>
+              <HeroMedia className="dp-hero-img rv d1" image={p.hero.image} video={p.hero.video} sizes="(max-width: 1000px) 100vw, 40vw" parallax="0.12" priority />
             ) : null}
           </div>
           <p className="pp-foot rv d3">{p.hero.foot}</p>

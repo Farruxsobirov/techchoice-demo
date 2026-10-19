@@ -253,7 +253,7 @@ h1{margin:24px 0 0;font-weight:400;font-size:clamp(44px,6.9vw,132px);line-height
 /* ---------- Let's get to work (white, over the light-masked video) ---------- */
 .contact{position:relative;color:#0a0a0a;padding:clamp(72px,5.7vw,110px) var(--gut) clamp(48px,4vw,80px)}
 .c-top,.c-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
-.c-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:clamp(32px,4vw,80px);align-items:start;margin-top:clamp(36px,3.4vw,66px)}
+.c-grid{display:grid;grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);gap:clamp(28px,3.4vw,64px);align-items:start;margin-top:clamp(36px,3.4vw,66px)}
 .c-title{margin:0;font-weight:400;font-size:clamp(44px,4.6vw,88px);line-height:1;letter-spacing:-.055em}
 .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
 .ln>span{display:inline-block}
@@ -1068,3 +1068,7 @@ html:not(.js) .ev-stat::before{transform:none}
 .cx-demo-frame iframe{display:block;width:100%;border:0}
 @media (min-width:761px){.no-burger-desk .burger{display:none}}
 .tm-hero .dp-hero-img img,.tm-hero .dp-hero-img video{inset:0;height:100%;transform:none}
+/* Home contact video: wide 16:9 frame, whole picture visible (no crop/zoom) */
+.c-visual.is-video{aspect-ratio:16/9;align-self:center}
+.c-visual.is-video video{inset:0;height:100%;transform:none}
+@media (min-width:901px){.c-left .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}

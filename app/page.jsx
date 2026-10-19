@@ -206,7 +206,7 @@ export default async function Home() {
               </p>
               <Btn className="ink rv d1" href={ct.button_link} label={ct.button_label} />
             </div>
-            <figure className="c-visual" id="cVisual">
+            <figure className={`c-visual${ct.video ? " is-video" : ""}`} id="cVisual">
               {ct.video ? (
                 <video src={ct.video} poster={ct.image ? ct.image.url : undefined} muted loop playsInline preload="none" data-autoplay="" aria-hidden="true" />
               ) : (

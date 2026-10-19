@@ -1119,3 +1119,4 @@ html:not(.js) .ev-stat::before{transform:none}
 .ct-form .ct-row>p{margin:0 0 22px}
 .ct-form .ct-row br,.ct-form label>br{display:none}
 @media (max-width:640px){.ct-form .ct-row{grid-template-columns:1fr}}
+.ct-form fieldset.hidden-fields-container{display:none;border:0;margin:0;padding:0}

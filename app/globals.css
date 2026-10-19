@@ -1066,5 +1066,5 @@ html:not(.js) .ev-stat::before{transform:none}
 .cx-demo h2{margin:clamp(28px,2.6vw,48px) 0 0;font-weight:400;font-size:clamp(44px,5vw,96px);line-height:.93;letter-spacing:-.045em}
 .cx-demo-frame{margin-top:clamp(28px,2.6vw,48px);background:#fff;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.45)}
 .cx-demo-frame iframe{display:block;width:100%;border:0}
-@media (min-width:761px){.burger{display:none}}
+@media (min-width:761px){.no-burger-desk .burger{display:none}}
 .tm-hero .dp-hero-img img,.tm-hero .dp-hero-img video{inset:0;height:100%;transform:none}

@@ -69,7 +69,7 @@ export function Header({ header: h, menus, homeHref = '#top' }) {
   const logoLight = src(h.logo_light, FALLBACK.logoLight);
   const logoDark = src(h.logo_dark, FALLBACK.logoDark);
   return (
-    <header className="header" id="header">
+    <header className={`header${h.burger_desktop ? "" : " no-burger-desk"}`} id="header">
       <a className="logo" href={homeHref} aria-label="Home">
         <img className="lg-light" src={logoLight} alt={h.logo_light?.alt || 'TechChoice'} decoding="async" />
         <img className="lg-dark" src={logoDark} alt="" aria-hidden="true" decoding="async" />

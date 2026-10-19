@@ -1072,3 +1072,45 @@ html:not(.js) .ev-stat::before{transform:none}
 .c-visual.is-video{aspect-ratio:16/9;align-self:center}
 .c-visual.is-video video{inset:0;height:100%;transform:none}
 @media (min-width:901px){.c-left .tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+/* ===================== Contact page (/contact) ===================== */
+.ct-hero-plain{min-height:auto}
+.ct-hero-plain .dp-hero-grid{grid-template-columns:minmax(0,1fr)}
+.ct-hero-plain .dp-hero-copy{max-width:1100px}
+.ct-main{background:#fff;color:#0a0a0a;padding-block:clamp(72px,6vw,120px)}
+.ct-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(40px,6vw,120px);align-items:start}
+.ct-info h2{margin:clamp(24px,2.4vw,44px) 0 0;font-weight:400;font-size:clamp(36px,3.6vw,68px);line-height:.98;letter-spacing:-.045em}
+.ct-list{margin:clamp(32px,3vw,56px) 0 0;display:grid;gap:0}
+.ct-list>div{display:grid;grid-template-columns:110px 1fr;gap:16px;padding:20px 0;border-top:1px solid #e3e3e8}
+.ct-list>div:last-child{border-bottom:1px solid #e3e3e8}
+.ct-list dt{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#77777f;padding-top:3px}
+.ct-list dd{margin:0;font-size:clamp(16px,1.2vw,20px);line-height:1.45}
+.ct-list a{color:inherit;text-decoration:none;background:linear-gradient(90deg,#FD2E44,#EC01A0,#5E41FB) 0 100%/0 1px no-repeat;transition:background-size .5s cubic-bezier(.16,1,.3,1)}
+.ct-list a:hover{background-size:100% 1px}
+.ct-line{display:block}
+.ct-card{background:#f6f6f8;padding:clamp(24px,3vw,56px)}
+.ct-card-title{margin:16px 0 0;font-weight:400;font-size:clamp(24px,2vw,34px);letter-spacing:-.03em}
+.ct-fallback{margin:20px 0 0;font-size:16px;line-height:1.6;color:#55555c}
+.ct-fallback a{color:#0a0a0a}
+/* Contact Form 7 markup in the site's style */
+.ct-form{margin-top:clamp(20px,2vw,32px)}
+.ct-form .screen-reader-response{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.ct-form form>p,.ct-form form>div:not(.wpcf7-response-output){margin:0 0 22px}
+.ct-form label{display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#55555c}
+.ct-form .wpcf7-form-control-wrap{display:block;margin-top:8px}
+.ct-form input:not([type=submit]):not([type=checkbox]):not([type=radio]):not([type=hidden]),.ct-form textarea,.ct-form select{width:100%;box-sizing:border-box;padding:14px 0;border:0;border-bottom:1px solid #c9c9d0;background:transparent;font:inherit;font-size:17px;letter-spacing:0;text-transform:none;color:#0a0a0a;border-radius:0;outline:0;transition:border-color .3s}
+.ct-form textarea{height:150px;min-height:110px;resize:vertical}
+.ct-form input:focus,.ct-form textarea:focus,.ct-form select:focus{border-bottom-color:#EC01A0}
+.ct-form .wpcf7-list-item{display:inline-flex;align-items:center;gap:8px;margin:6px 16px 0 0;text-transform:none;letter-spacing:0;font-size:15px;color:#0a0a0a}
+.ct-form [type=submit]{display:inline-flex;align-items:center;justify-content:center;min-width:200px;height:56px;padding:0 28px;border:0;background:#0a0a0a;color:#fff;font:inherit;font-size:15px;cursor:pointer;transition:background-color .3s,opacity .3s}
+.ct-form [type=submit]:hover{background:#EC01A0}
+.ct-form [type=submit]:disabled{opacity:.5;cursor:wait}
+.ct-form .wpcf7-spinner{display:none}
+.ct-form .wpcf7-not-valid{border-bottom-color:#FD2E44!important}
+.ct-form .wpcf7-not-valid-tip{display:block;margin-top:6px;font-size:13px;letter-spacing:0;text-transform:none;color:#FD2E44}
+.ct-form .wpcf7-response-output{margin:20px 0 0;font-size:15px;line-height:1.5}
+.ct-form .wpcf7-response-output:empty{display:none}
+.ct-form form.sent .wpcf7-response-output{padding:14px 16px;background:#eafaf1;color:#0d6b3a}
+.ct-form form.invalid .wpcf7-response-output,.ct-form form.failed .wpcf7-response-output,.ct-form form.spam .wpcf7-response-output{padding:14px 16px;background:#fff0f2;color:#b0102a}
+@media (max-width:1000px){.ct-grid{grid-template-columns:1fr}}
+@media (max-width:560px){.ct-list>div{grid-template-columns:1fr;gap:4px}}

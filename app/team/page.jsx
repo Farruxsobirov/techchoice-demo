@@ -48,7 +48,7 @@ export default async function TeamPage() {
 
       <main className="pp dp dp--control tm">
         {/* ---------- Hero ---------- */}
-        <section className="pp-hero dp-hero" id="top" data-theme="dark" data-hero>
+        <section className="pp-hero dp-hero tm-hero" id="top" data-theme="dark" data-hero>
           <p className="crumb rv">{p.hero.breadcrumb}</p>
           <div className="dp-hero-grid">
             <div className="dp-hero-copy">

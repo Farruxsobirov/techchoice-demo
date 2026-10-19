@@ -144,14 +144,16 @@
   document.documentElement.style.setProperty('--dur',DUR/1000+'s');
   document.getElementById('prev').addEventListener('click',e=>{e.stopPropagation();go(cur-1)});
   document.getElementById('next').addEventListener('click',e=>{e.stopPropagation();go(cur+1)});
-  slides.forEach((s,i)=>s.addEventListener('click',()=>{if(i!==cur)go(i)}));
+  // Side slide → bring it to the centre; centre slide → open its page (unless the click ended a swipe).
+  let dragged=false;
+  slides.forEach((s,i)=>s.addEventListener('click',()=>{if(dragged)return;if(i!==cur)go(i);else if(s.dataset.href)location.href=s.dataset.href}));
   bars.forEach((b,i)=>b.addEventListener('click',()=>go(i)));
   slider.addEventListener('mouseenter',()=>{hovering=true;clearTimeout(timer)});
   slider.addEventListener('mouseleave',()=>{hovering=false;render()});
   // swipe / drag
   let sx=null;
-  slider.addEventListener('pointerdown',e=>{sx=e.clientX});
-  addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>50)go(cur+(dx<0?1:-1))});
+  slider.addEventListener('pointerdown',e=>{sx=e.clientX;dragged=false});
+  addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>10)dragged=true;if(Math.abs(dx)>50)go(cur+(dx<0?1:-1))});
   // keyboard when section is focused/in view
   addEventListener('keydown',e=>{if(!inView)return;if(e.key==='ArrowRight')go(cur+1);if(e.key==='ArrowLeft')go(cur-1)});
   // autoplay only while the section is on screen

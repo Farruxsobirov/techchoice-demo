@@ -17,6 +17,14 @@ export async function generateMetadata() {
 
 const delay = (i) => (i > 0 ? ` d${Math.min(i, 3)}` : '');
 
+/** Where a slide leads: its WordPress link, or the matching page (Design → /design …) when the link is empty or just #process. */
+function slideHref(s) {
+  const u = s.link_url || '';
+  if (u && !u.startsWith('#')) return u;
+  const slug = String(s.title || '').trim().toLowerCase();
+  return ['design', 'deliver', 'control'].includes(slug) ? `/${slug}` : u || '#process';
+}
+
 /** Slide tint (WordPress: red / pink / purple) → the two colours of the overlay gradient. */
 function tintVars(hex) {
   const m = /^#?([0-9a-f]{6})$/i.exec(hex || '');
@@ -117,7 +125,7 @@ export default async function Home() {
 
           <div className="slider rv d2" id="slider" data-autoplay={pr.autoplay_seconds}>
             {slides.map((s, i) => (
-              <div key={i} className={`slide${s.original_colors ? ' keep' : ''}`} style={tintVars(s.tint)} data-i={i} role="group" aria-label={`${i + 1} of ${slides.length}: ${s.title}`}>
+              <div key={i} className={`slide${s.original_colors ? ' keep' : ''}`} style={tintVars(s.tint)} data-i={i} data-href={slideHref(s)} role="group" aria-label={`${i + 1} of ${slides.length}: ${s.title}`}>
                 {s.video ? (
                   <video src={s.video} poster={s.image ? s.image.url : undefined} muted loop playsInline preload="none" aria-hidden="true" />
                 ) : (
@@ -140,10 +148,12 @@ export default async function Home() {
           <div className="p-copy" aria-live="polite">
             {slides.map((s, i) => (
               <div key={i} className="item" data-i={i}>
-                <h3 className="split chars live">{s.title}</h3>
+                <h3 className="split chars live">
+                  <a href={slideHref(s)}>{s.title}</a>
+                </h3>
                 <p>{s.text}</p>
                 {s.link_label ? (
-                  <a className="explore" href={s.link_url || '#process'}>
+                  <a className="explore" href={slideHref(s)}>
                     {s.link_label} <ArrowUpRight />
                   </a>
                 ) : null}

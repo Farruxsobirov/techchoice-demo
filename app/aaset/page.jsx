@@ -94,6 +94,17 @@ export default async function ControlPlusPage() {
           </div>
         </section>
 
+        {/* ---------- Platform demo (HTML from WordPress, served in its own frame) ---------- */}
+        {p.demo.show ? (
+          <section className="cx-demo" id="demo" data-theme="dark">
+            {p.demo.label ? <span className="pp-label rv">{p.demo.label}</span> : null}
+            {p.demo.title ? <h2 className="split">{p.demo.title}</h2> : null}
+            <div className="cx-demo-frame rv d1">
+              <iframe src="/aaset/demo" title={p.demo.title || 'Platform demo'} loading="lazy" style={{ height: p.demo.height }} />
+            </div>
+          </section>
+        ) : null}
+
         {/* ---------- Why CONTROL+ ---------- */}
         <section className="pp-intro" id="why" data-theme="light">
           <span className="pp-label rv">{p.why.label}</span>
@@ -117,29 +128,33 @@ export default async function ControlPlusPage() {
 
         {/* ---------- Pricing ---------- */}
         {p.pricing.show ? (
-          <section className="cx-pricing" id="pricing" data-theme="light">
-            {p.pricing.label ? <span className="pp-label rv">{p.pricing.label}</span> : null}
-            {p.pricing.title ? <h2 className="split">{p.pricing.title}</h2> : null}
-            {p.pricing.lead ? <p className="cx-p-lead rv d1">{p.pricing.lead}</p> : null}
-            {p.pricing.image ? (
-              <figure className="cx-p-img rv d1">
-                <img src={p.pricing.image.url} alt={p.pricing.image.alt} loading="lazy" decoding="async" />
-              </figure>
-            ) : null}
-            {p.pricing.tiers.length ? (
-              <div className="cx-tiers" style={{ '--n': p.pricing.tiers.length }}>
-                {p.pricing.tiers.map((t, i) => (
-                  <div key={i} className={`cx-tier rv${t.highlight ? ' hl' : ''}`} style={{ transitionDelay: `${i * 0.08}s` }}>
-                    <span className="cx-t-label">{t.label}</span>
-                    <b className="cx-t-value" {...countAttrs(t.value)}>
-                      {t.value}
-                    </b>
-                    <span className="cx-t-cap">{t.caption}</span>
+          <section className={`cx-pricing${p.pricing.image ? ` has-img img-${p.pricing.image_position}` : ''}`} id="pricing" data-theme="light">
+            <div className="cx-p-grid">
+              <div className="cx-p-main">
+                {p.pricing.label ? <span className="pp-label rv">{p.pricing.label}</span> : null}
+                {p.pricing.title ? <h2 className="split">{p.pricing.title}</h2> : null}
+                {p.pricing.lead ? <div className="cx-p-lead cx-rich rv d1" dangerouslySetInnerHTML={{ __html: p.pricing.lead }} /> : null}
+                {p.pricing.tiers.length ? (
+                  <div className="cx-tiers" style={{ '--n': p.pricing.tiers.length }}>
+                    {p.pricing.tiers.map((t, i) => (
+                      <div key={i} className={`cx-tier rv${t.highlight ? ' hl' : ''}`} style={{ transitionDelay: `${i * 0.08}s` }}>
+                        <span className="cx-t-label">{t.label}</span>
+                        <b className="cx-t-value" {...countAttrs(t.value)}>
+                          {t.value}
+                        </b>
+                        <span className="cx-t-cap">{t.caption}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
+                ) : null}
+                {p.pricing.note ? <div className="cx-p-note cx-rich rv" dangerouslySetInnerHTML={{ __html: p.pricing.note }} /> : null}
               </div>
-            ) : null}
-            {p.pricing.note ? <p className="cx-p-note rv">{p.pricing.note}</p> : null}
+              {p.pricing.image ? (
+                <figure className="cx-p-img rv d1">
+                  <img src={p.pricing.image.url} alt={p.pricing.image.alt} loading="lazy" decoding="async" />
+                </figure>
+              ) : null}
+            </div>
           </section>
         ) : null}
 

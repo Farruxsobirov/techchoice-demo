@@ -91,7 +91,7 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
 
       <main className={`pp dp dp--${variant}`}>
         {/* ---------- Hero ---------- */}
-        <section className={`pp-hero dp-hero${p.hero.path ? ' has-path' : ''}`} id="top" data-theme="dark" data-hero>
+        <section className={`pp-hero dp-hero${p.hero.path && !p.hero.video ? ' has-path' : ''}`} id="top" data-theme="dark" data-hero>
           <p className="crumb rv">{p.hero.breadcrumb}</p>
           <div className="dp-hero-grid">
             <div className="dp-hero-copy">
@@ -100,7 +100,9 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
               </h1>
               <p className="pp-lead rv d2">{p.hero.lead}</p>
             </div>
-            {p.hero.path ? (
+            {p.hero.video ? (
+              <HeroMedia className="dp-hero-img rv d1" image={p.hero.image} video={p.hero.video} sizes="(max-width: 1000px) 100vw, 40vw" parallax="0.12" priority />
+            ) : p.hero.path ? (
               <CriticalPath path={p.hero.path} />
             ) : p.hero.image ? (
               <HeroMedia className="dp-hero-img rv d1" image={p.hero.image} video={p.hero.video} sizes="(max-width: 1000px) 100vw, 40vw" parallax="0.12" priority />
@@ -119,10 +121,8 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
             {/* WYSIWYG from ACF: may contain its own <p> tags */}
             <div className="pp-body rv d1" dangerouslySetInnerHTML={{ __html: p.problem.body }} />
           </div>
-          {p.problem.image ? (
-            <figure className="dp-wide rv">
-              <img {...rimg(p.problem.image.url, { widths: [828, 1200, 2048], sizes: '100vw' })} alt={p.problem.image.alt} data-parallax="0.1" loading="lazy" decoding="async" />
-            </figure>
+          {p.problem.video || p.problem.image ? (
+            <HeroMedia className="dp-wide rv" image={p.problem.image} video={p.problem.video} sizes="100vw" parallax="0.1" />
           ) : null}
         </section>
 

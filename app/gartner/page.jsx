@@ -164,6 +164,7 @@ export default async function EventsPage() {
 
         {/* ---------- Find us ---------- */}
         <section className="ev-sec ev-grey" id="booth" data-theme="light">
+          <span id="find-us" aria-hidden="true" />
           <div className="ev-booth">
             <div>
               <span className="pp-label rv">{booth.label}</span>
@@ -171,7 +172,7 @@ export default async function EventsPage() {
               <p className="ev-booth-text rv d1">{booth.text}</p>
               {booth.button_label ? <Btn className="ink rv d2" href={booth.button_url} label={booth.button_label} /> : null}
             </div>
-            <div className="ev-map rv d1">
+            <div className="ev-map rv d1" id="map">
               <span className="pp-label">{booth.map_label}</span>
               {booth.map_image ? (
                 <img className="ev-plan" src={booth.map_image.url} alt={booth.map_image.alt || booth.map_label} loading="lazy" decoding="async" />

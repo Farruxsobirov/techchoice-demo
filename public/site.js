@@ -364,7 +364,7 @@
   }
 
   // ---------- Buttons: rolling label + swapping arrow + magnetic pull ----------
-  document.querySelectorAll('.btn').forEach(b=>{
+  document.querySelectorAll('.btn:not([data-ready])').forEach(b=>{
     const svg=b.querySelector('svg'); const txt=[...b.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join('').trim();
     [...b.childNodes].forEach(n=>{if(n.nodeType===3)n.remove()});
     const roll=document.createElement('span');roll.className='roll';roll.innerHTML='<span></span><span aria-hidden="true"></span>';
@@ -374,7 +374,7 @@
   });
   const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
   if(fine && !reduce){
-    document.querySelectorAll('.btn,.burger,.arrow,.pause,.totop').forEach(el=>{
+    document.querySelectorAll('.btn:not([data-ready]),.burger,.arrow,.pause,.totop').forEach(el=>{
       let raf=0,tx=0,ty=0,cx=0,cy=0;
       const k=el.classList.contains('btn')?0.28:0.4;
       function loop(){cx+=(tx-cx)*.18;cy+=(ty-cy)*.18;el.style.translate=cx.toFixed(2)+'px '+cy.toFixed(2)+'px';if(Math.abs(tx-cx)+Math.abs(ty-cy)>.1)raf=requestAnimationFrame(loop);else raf=0}

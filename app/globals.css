@@ -1102,9 +1102,16 @@ html:not(.js) .ev-stat::before{transform:none}
 .ct-form textarea{height:150px;min-height:110px;resize:vertical}
 .ct-form input:focus,.ct-form textarea:focus,.ct-form select:focus{border-bottom-color:#EC01A0}
 .ct-form .wpcf7-list-item{display:inline-flex;align-items:center;gap:8px;margin:6px 16px 0 0;text-transform:none;letter-spacing:0;font-size:15px;color:#0a0a0a}
-.ct-form [type=submit]{display:inline-flex;align-items:center;justify-content:center;min-width:200px;height:56px;padding:0 28px;border:0;background:#0a0a0a;color:#fff;font:inherit;font-size:15px;cursor:pointer;transition:background-color .3s,opacity .3s}
-.ct-form [type=submit]:hover{background:#EC01A0}
-.ct-form [type=submit]:disabled{opacity:.5;cursor:wait}
+.ct-form input[type=submit]{display:inline-flex;align-items:center;justify-content:center;min-width:200px;height:56px;padding:0 28px;border:0;border-radius:6px;background:#0a0a0a;color:#fff;font:inherit;font-size:15px;cursor:pointer}
+/* Submit = the site's .btn.ink (built in ContactForm.jsx); while sending the label hides and a spinner turns */
+.ct-form .ct-submit{min-width:220px}
+.ct-form .ct-submit .roll,.ct-form .ct-submit .ico{transition:opacity .25s}
+.ct-form .ct-submit.is-loading{cursor:wait;pointer-events:none}
+.ct-form .ct-submit.is-loading .roll,.ct-form .ct-submit.is-loading .ico{opacity:0}
+.ct-spin{position:absolute;left:50%;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;opacity:0;transition:opacity .25s}
+.ct-submit.is-loading .ct-spin{opacity:1;animation:ct-spin .7s linear infinite}
+@keyframes ct-spin{to{transform:rotate(360deg)}}
+.ct-form .wpcf7-spinner{display:none}
 .ct-form .wpcf7-spinner{display:none}
 .ct-form .wpcf7-not-valid{border-bottom-color:#FD2E44!important}
 .ct-form .wpcf7-not-valid-tip{display:block;margin-top:6px;font-size:13px;letter-spacing:0;text-transform:none;color:#FD2E44}
@@ -1133,13 +1140,13 @@ html:not(.js) .ev-stat::before{transform:none}
 .dp-hero-img.is-video,.dp-wide.is-video,.ab-img.is-video{aspect-ratio:16/9}
 .dp-hero-img.is-video video,.dp-wide.is-video video,.ab-img.is-video video{inset:0;top:0;height:100%;object-fit:cover;transform:none}
 .dp-hero-grid:has(.dp-hero-img.is-video){align-items:center}
-.vsound{position:absolute;right:clamp(10px,1.2vw,18px);bottom:clamp(10px,1.2vw,18px);z-index:3;display:inline-flex;align-items:center;gap:8px;
+.vsound{background-origin:border-box;position:absolute;right:clamp(10px,1.2vw,18px);bottom:clamp(10px,1.2vw,18px);z-index:3;display:inline-flex;align-items:center;gap:8px;
   height:40px;padding:0 14px 0 11px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(10,10,14,.55);color:#fff;
   font-family:inherit;font-size:12px;font-weight:500;line-height:1;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .3s,border-color .3s}
 .vsound:hover{background:rgba(10,10,14,.8);border-color:rgba(255,255,255,.6)}
 .vsound:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .vsound .vs-on{display:none}.vsound.on .vs-on{display:inline}.vsound.on .vs-off{display:none}
-.vsound.on{background:linear-gradient(100deg,#FD2E44,#EC01A0 50%,#5E41FB);border-color:transparent}
+.vsound.on{background:linear-gradient(100deg,#FD2E44,#EC01A0 50%,#5E41FB) border-box;border-color:transparent}
 .vsound[hidden]{display:none}
 @media (max-width:600px){.vsound .vs-txt{display:none}.vsound{padding:0;width:40px;justify-content:center}}
 

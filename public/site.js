@@ -120,10 +120,11 @@
       b.addEventListener('click',e=>{
         e.preventDefault();e.stopPropagation();
         const on=v.muted;
-        if(on) fvids.forEach(o=>{if(o!==v&&!o.muted){o.muted=true;const ob=o.closest('figure')?.querySelector('[data-vsound]');if(ob){ob.classList.remove('on');ob.setAttribute('aria-pressed','false');ob.setAttribute('aria-label','Turn sound on')}}});
+        if(on) document.dispatchEvent(new CustomEvent('tc-sound',{detail:v}));   // only one video speaks at a time
         v.muted=!on;set(on);
         if(on){const p=v.play();if(p&&p.catch)p.catch(()=>{})}
       });
+      document.addEventListener('tc-sound',e=>{if(e.detail!==v&&!v.muted){v.muted=true;set(false)}});
       // No sound track in this file → no Sound button
       const noAudio=()=>{
         if(v.mozHasAudio===false||(v.audioTracks&&v.audioTracks.length===0)||(v.webkitAudioDecodedByteCount===0&&v.currentTime>1.5)){b.hidden=true;return true}
@@ -160,8 +161,18 @@
   }
   function go(i){cur=((i%n)+n)%n;render()}
   // Background videos: only the active slide plays (muted, looped); nothing loads until it's shown.
-  function vids(){slides.forEach((s,i)=>{const v=s.querySelector('video');if(!v)return;if(i===cur&&inView){const p=v.play();if(p&&p.catch)p.catch(()=>{})}else v.pause()})}
-  function schedule(){clearTimeout(timer);if(reduce||!inView||hovering)return;timer=setTimeout(()=>go(cur+1),DUR)}
+  // Sound button: shown on video slides; when on, the centre slide's video plays with sound and the slider stops auto-advancing.
+  const sb=document.getElementById('slideSound'); let soundOn=false;
+  function vids(){
+    slides.forEach((s,i)=>{const v=s.querySelector('video');if(!v)return;const act=i===cur&&inView;v.muted=!(act&&soundOn);if(act){const p=v.play();if(p&&p.catch)p.catch(()=>{})}else v.pause()});
+    if(sb){const hasV=!!slides[cur].querySelector('video');sb.hidden=!hasV;sb.classList.toggle('on',soundOn&&hasV);sb.setAttribute('aria-pressed',soundOn&&hasV?'true':'false');sb.setAttribute('aria-label',soundOn&&hasV?'Turn sound off':'Turn sound on');slider.classList.toggle('paused',!inView||(soundOn&&hasV))}
+  }
+  if(sb){
+    sb.addEventListener('pointerdown',e=>e.stopPropagation());
+    sb.addEventListener('click',e=>{e.preventDefault();e.stopPropagation();soundOn=!soundOn;if(soundOn)document.dispatchEvent(new CustomEvent('tc-sound',{detail:slider}));vids();schedule()});
+    document.addEventListener('tc-sound',e=>{if(e.detail!==slider&&soundOn){soundOn=false;vids();schedule()}});
+  }
+  function schedule(){clearTimeout(timer);if(reduce||!inView||hovering||(soundOn&&slides[cur].querySelector('video')))return;timer=setTimeout(()=>go(cur+1),DUR)}
   document.documentElement.style.setProperty('--dur',DUR/1000+'s');
   document.getElementById('prev').addEventListener('click',e=>{e.stopPropagation();go(cur-1)});
   document.getElementById('next').addEventListener('click',e=>{e.stopPropagation();go(cur+1)});

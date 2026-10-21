@@ -127,12 +127,13 @@ export default async function Home() {
             {slides.map((s, i) => (
               <div key={i} className={`slide${s.original_colors ? ' keep' : ''}`} style={tintVars(s.tint)} data-i={i} data-href={slideHref(s)} role="group" aria-label={`${i + 1} of ${slides.length}: ${s.title}`}>
                 {s.video ? (
-                  <video src={s.video} poster={s.image ? s.image.url : undefined} muted loop playsInline preload="none" aria-hidden="true" />
+                  <video src={s.video} poster={s.image ? s.image.url : undefined} muted loop playsInline preload="none" />
                 ) : (
                   <img {...rimg(src(s.image, FALLBACK.slides[i] || FALLBACK.slides[0]), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 60vw' })} alt={s.image?.alt || ''} loading="lazy" decoding="async" />
                 )}
               </div>
             ))}
+            {slides.some((x) => x.video) ? <SoundButton className="slider-sound" id="slideSound" hidden /> : null}
             <button className="arrow prev" id="prev" type="button" aria-label="Previous">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
                 <path d="M19 12H5M11 6l-6 6 6 6" />

@@ -1145,3 +1145,5 @@ html:not(.js) .ev-stat::before{transform:none}
 
 /* ===== Deliver/Design/Control hero: critical-path graphic + video together ===== */
 .dp-hero-video{margin:clamp(36px,4vw,72px) 0 0;background:#111}
+/* Home slider: one Sound button on the centre slide (only when that slide is a video) */
+.vsound.slider-sound{right:calc(50% - var(--aw)/2 + 1.8vw);bottom:1.8vw;z-index:4}

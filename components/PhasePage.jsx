@@ -2,7 +2,7 @@ import { splitStat } from '../lib/phase';
 import HeroMedia from '../components/HeroMedia';
 import { LineIcon } from './Icons';
 import { rimg } from '../lib/img';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle } from './Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle, rich } from './Chrome';
 
 /* Shared layout of the phase pages (Design, Deliver, …). */
 
@@ -34,7 +34,7 @@ function CriticalPath({ path }) {
           </div>
         ))}
       </div>
-      <p className="cp-foot">{path.foot}</p>
+      <p className="cp-foot">{rich(path.foot)}</p>
     </aside>
   );
 }
@@ -62,7 +62,7 @@ function Cycle({ cycle }) {
           <li key={i} className="cyc-step" style={{ gridRow: CYC_POS[i].row, gridColumn: CYC_POS[i].col }}>
             <span className="cyc-num">{String(i + 1).padStart(2, '0')}</span>
             <b>{s.title}</b>
-            {s.text ? <span className="cyc-text">{s.text}</span> : null}
+            {s.text ? <span className="cyc-text">{rich(s.text)}</span> : null}
           </li>
         ))}
         {CYC_ARROWS.slice(0, n === 4 ? 4 : Math.max(0, n - 1)).map((a, i) => (
@@ -73,7 +73,7 @@ function Cycle({ cycle }) {
           </li>
         ))}
       </ol>
-      <p className="cyc-foot">{cycle.foot}</p>
+      <p className="cyc-foot">{rich(cycle.foot)}</p>
     </aside>
   );
 }
@@ -91,24 +91,26 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
 
       <main className={`pp dp dp--${variant}`}>
         {/* ---------- Hero ---------- */}
-        <section className={`pp-hero dp-hero${p.hero.path && !p.hero.video ? ' has-path' : ''}`} id="top" data-theme="dark" data-hero>
+        <section className={`pp-hero dp-hero${p.hero.path ? ' has-path' : ''}${p.hero.path && p.hero.video ? ' has-video' : ''}`} id="top" data-theme="dark" data-hero>
           <p className="crumb rv">{p.hero.breadcrumb}</p>
           <div className="dp-hero-grid">
             <div className="dp-hero-copy">
               <h1 className="split chars" data-delay="200">
                 <HeroTitle items={p.hero.title} />
               </h1>
-              <p className="pp-lead rv d2">{p.hero.lead}</p>
+              <p className="pp-lead rv d2">{rich(p.hero.lead)}</p>
             </div>
-            {p.hero.video ? (
-              <HeroMedia className="dp-hero-img rv d1" image={p.hero.image} video={p.hero.video} sizes="(max-width: 1000px) 100vw, 40vw" parallax="0.12" priority />
-            ) : p.hero.path ? (
+            {/* The critical-path graphic stays; a hero video then goes full width under it. */}
+            {p.hero.path ? (
               <CriticalPath path={p.hero.path} />
-            ) : p.hero.image ? (
+            ) : p.hero.video || p.hero.image ? (
               <HeroMedia className="dp-hero-img rv d1" image={p.hero.image} video={p.hero.video} sizes="(max-width: 1000px) 100vw, 40vw" parallax="0.12" priority />
             ) : null}
           </div>
-          <p className="pp-foot rv d3">{p.hero.foot}</p>
+          {p.hero.path && p.hero.video ? (
+            <HeroMedia className="dp-wide dp-hero-video rv" image={p.hero.image} video={p.hero.video} sizes="100vw" />
+          ) : null}
+          <p className="pp-foot rv d3">{rich(p.hero.foot)}</p>
         </section>
 
         {/* ---------- The problem we solve ---------- */}
@@ -135,7 +137,7 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
               <article key={i} className={`dp-card rv${i % cols ? ` d${Math.min(i % cols, 3)}` : ''}`}>
                 <span className="dp-ico">{it.custom_icon ? <img src={it.custom_icon.url} alt="" /> : <LineIcon name={it.icon} />}</span>
                 <h3>{it.title}</h3>
-                <p>{it.text}</p>
+                <p>{rich(it.text)}</p>
               </article>
             ))}
           </div>
@@ -163,7 +165,7 @@ export default function PhasePage({ site, page: p, variant, cols = 2 }) {
                     <b className="dv-to">{st.to}</b>
                   </div>
                   <i className="dv-bar" aria-hidden="true" />
-                  <span className="dv-cap">{st.caption}</span>
+                  <span className="dv-cap">{rich(st.caption)}</span>
                 </div>
               </div>
             </>

@@ -6,12 +6,36 @@ import { FALLBACK, src } from '../lib/content';
 
 export const pad = (n) => String(n).padStart(2, '0');
 
-/** Renders an array of lines with <br> between them. */
+/**
+ * Text typed in WordPress → what the site shows. Two simple rules editors can use in any text field:
+ *   *words*   → those words in the TechChoice gradient
+ *   Enter     → a new line
+ */
+export function rich(text) {
+  if (text === null || text === undefined || text === false) return text;
+  if (typeof text !== 'string') return text;
+  return text.split(/\r?\n/).map((line, li) => (
+    <Fragment key={li}>
+      {li > 0 && <br />}
+      {line.split(/(\*[^*\n]+\*)/g).map((part, i) =>
+        /^\*[^*\n]+\*$/.test(part) ? (
+          <span key={i} className="tg" data-nosplit="">
+            {part.slice(1, -1)}
+          </span>
+        ) : (
+          part
+        )
+      )}
+    </Fragment>
+  ));
+}
+
+/** Renders an array of lines with <br> between them (each line understands *gradient*). */
 export function Lines({ items }) {
   return (items || []).map((line, i) => (
     <Fragment key={i}>
       {i > 0 && <br />}
-      {line}
+      {rich(line)}
     </Fragment>
   ));
 }

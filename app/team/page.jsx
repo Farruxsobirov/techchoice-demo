@@ -2,7 +2,7 @@ import { getTeamPage } from '../../lib/team';
 import HeroMedia from '../../components/HeroMedia';
 import { rimg } from '../../lib/img';
 import { ArrowUpRight } from '../../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad, HeroTitle } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad, HeroTitle, rich } from '../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -55,18 +55,18 @@ export default async function TeamPage() {
               <h1 className="split chars" data-delay="200">
                 <HeroTitle items={p.hero.title} />
               </h1>
-              <p className="pp-lead rv d2">{p.hero.lead}</p>
+              <p className="pp-lead rv d2">{rich(p.hero.lead)}</p>
             </div>
             <HeroMedia className="dp-hero-img rv d1" image={p.hero.image} video={p.hero.video} sizes="(max-width: 1000px) 100vw, 40vw" parallax="0.12" priority />
           </div>
-          <p className="pp-foot rv d3">{p.hero.foot}</p>
+          <p className="pp-foot rv d3">{rich(p.hero.foot)}</p>
         </section>
 
         {/* ---------- People ---------- */}
         <section className="tm-people" id="people" data-theme="light">
           <span className="pp-label rv">{p.people.label}</span>
           <h2 className="split">{p.people.title}</h2>
-          {p.people.note ? <p className="ts-note rv d1">{p.people.note}</p> : null}
+          {p.people.note ? <p className="ts-note rv d1">{rich(p.people.note)}</p> : null}
 
           {/* Featured (Paul): on top, separated from everyone else */}
           {lead.map((m) => (
@@ -76,7 +76,7 @@ export default async function TeamPage() {
                 {m.group ? <span className="tm-group">{m.group}</span> : null}
                 <b className="tm-lead-name">{m.name}</b>
                 <span className="tm-role">{m.role}</span>
-                {m.tagline ? <span className="tm-tagline">“{m.tagline}”</span> : null}
+                {m.tagline ? <span className="tm-tagline">“{rich(m.tagline)}”</span> : null}
                 <span className="tm-more">
                   View profile <ArrowUpRight />
                 </span>

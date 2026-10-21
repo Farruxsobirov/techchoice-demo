@@ -342,3 +342,22 @@ export function LineIcon({ name }) {
     </svg>
   );
 }
+
+/** Sound button for frame videos: speaker with waves (on) / with a cross (off). public/site.js toggles .on. */
+export function SoundButton() {
+  return (
+    <button type="button" className="vsound" data-vsound="" aria-label="Turn sound on" aria-pressed="false">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 9.5h3.2L12 5.5v13l-4.8-4H4z" fill="currentColor" stroke="none" />
+        <g className="vs-off">
+          <path d="M16 9.5l5 5M21 9.5l-5 5" />
+        </g>
+        <g className="vs-on">
+          <path d="M15.5 9a4.2 4.2 0 0 1 0 6" />
+          <path d="M18 6.5a7.8 7.8 0 0 1 0 11" />
+        </g>
+      </svg>
+      <span className="vs-txt">Sound</span>
+    </button>
+  );
+}

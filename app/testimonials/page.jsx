@@ -1,6 +1,6 @@
 import { getTestimonialsPage } from '../../lib/testimonials';
 import { rimg } from '../../lib/img';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle, rich } from '../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -21,7 +21,7 @@ function Story({ t, big, i }) {
   return (
     <figure className={`ts-card rv${big ? ' big' : i % 2 ? ' d1' : ''}`}>
       <QuoteMark className="ts-q" />
-      <blockquote>{t.quote}</blockquote>
+      <blockquote>{rich(t.quote)}</blockquote>
       {who.length ? (
         <figcaption>
           {t.photo ? <img {...rimg(t.photo.url, { widths: [128, 256], sizes: '56px' })} alt="" loading="lazy" decoding="async" /> : null}
@@ -52,7 +52,7 @@ export default async function TestimonialsPage() {
               <h1 className="split chars" data-delay="200">
                 <HeroTitle items={p.hero.title} />
               </h1>
-              <p className="pp-lead rv d2">{p.hero.lead}</p>
+              <p className="pp-lead rv d2">{rich(p.hero.lead)}</p>
             </div>
             <aside className="ts-aside rv d2">
               <QuoteMark className="ts-bigq" />
@@ -61,14 +61,14 @@ export default async function TestimonialsPage() {
               </span>
             </aside>
           </div>
-          <p className="pp-foot rv d3">{p.hero.foot}</p>
+          <p className="pp-foot rv d3">{rich(p.hero.foot)}</p>
         </section>
 
         {/* ---------- Client stories ---------- */}
         <section className={`ts-stories${p.stories.placeholder ? ' is-pending' : ''}`} id="stories" data-theme="light">
           <span className="pp-label rv">{p.stories.label}</span>
           <h2 className="split">{p.stories.title}</h2>
-          {p.stories.note ? <p className="ts-note rv d1">{p.stories.note}</p> : null}
+          {p.stories.note ? <p className="ts-note rv d1">{rich(p.stories.note)}</p> : null}
           {first ? <Story t={first} big /> : null}
           {rest.length ? (
             <div className="ts-grid">

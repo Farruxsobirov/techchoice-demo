@@ -1120,3 +1120,28 @@ html:not(.js) .ev-stat::before{transform:none}
 .ct-form .ct-row br,.ct-form label>br{display:none}
 @media (max-width:640px){.ct-form .ct-row{grid-template-columns:1fr}}
 .ct-form fieldset.hidden-fields-container{display:none;border:0;margin:0;padding:0}
+
+/* ===== *Gradient* text typed by editors (rich() in Chrome.jsx) ===== */
+.tg{background:linear-gradient(100deg,#FD2E44,#EC01A0 50%,#5E41FB);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;-webkit-box-decoration-break:clone;box-decoration-break:clone;padding-bottom:.06em}
+.ab-num.tg{color:transparent;padding-right:.04em}
+.js .split .tg{opacity:0;transition:opacity 1.1s cubic-bezier(.16,1,.3,1) calc(var(--d,0ms) + .5s)}
+.js .split.in .tg{opacity:1}
+.js .split .ev-acc .tg{opacity:1;transition:none}
+@media (prefers-reduced-motion:reduce){.js .split .tg{opacity:1;transition:none}}
+
+/* ===== Frame videos: own shape (16:9 until the file says otherwise), whole picture visible, Sound button ===== */
+.dp-hero-img.is-video,.dp-wide.is-video,.ab-img.is-video{aspect-ratio:16/9}
+.dp-hero-img.is-video video,.dp-wide.is-video video,.ab-img.is-video video{inset:0;top:0;height:100%;object-fit:cover;transform:none}
+.dp-hero-grid:has(.dp-hero-img.is-video){align-items:center}
+.vsound{position:absolute;right:clamp(10px,1.2vw,18px);bottom:clamp(10px,1.2vw,18px);z-index:3;display:inline-flex;align-items:center;gap:8px;
+  height:40px;padding:0 14px 0 11px;border:1px solid rgba(255,255,255,.28);border-radius:999px;background:rgba(10,10,14,.55);color:#fff;
+  font-family:inherit;font-size:12px;font-weight:500;line-height:1;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .3s,border-color .3s}
+.vsound:hover{background:rgba(10,10,14,.8);border-color:rgba(255,255,255,.6)}
+.vsound:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.vsound .vs-on{display:none}.vsound.on .vs-on{display:inline}.vsound.on .vs-off{display:none}
+.vsound.on{background:linear-gradient(100deg,#FD2E44,#EC01A0 50%,#5E41FB);border-color:transparent}
+.vsound[hidden]{display:none}
+@media (max-width:600px){.vsound .vs-txt{display:none}.vsound{padding:0;width:40px;justify-content:center}}
+
+/* ===== Deliver/Design/Control hero: critical-path graphic + video together ===== */
+.dp-hero-video{margin:clamp(36px,4vw,72px) 0 0;background:#111}

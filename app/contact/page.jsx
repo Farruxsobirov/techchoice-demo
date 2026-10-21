@@ -1,7 +1,7 @@
 import { getContactPage } from '../../lib/contact';
 import HeroMedia from '../../components/HeroMedia';
 import ContactForm from '../../components/ContactForm';
-import { Header, FullMenu, Cursor, Footer, HeroTitle } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, HeroTitle, rich } from '../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -32,11 +32,11 @@ export default async function ContactPage() {
               <h1 className="split chars" data-delay="200">
                 <HeroTitle items={p.hero.title} />
               </h1>
-              <p className="pp-lead rv d2">{p.hero.lead}</p>
+              <p className="pp-lead rv d2">{rich(p.hero.lead)}</p>
             </div>
             {hasMedia ? <HeroMedia className="dp-hero-img rv d1" image={p.hero.image} video={p.hero.video} sizes="(max-width: 1000px) 100vw, 40vw" parallax="0.12" priority /> : null}
           </div>
-          <p className="pp-foot rv d3">{p.hero.foot}</p>
+          <p className="pp-foot rv d3">{rich(p.hero.foot)}</p>
         </section>
 
         {/* ---------- Details + form ---------- */}

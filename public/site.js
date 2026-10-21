@@ -110,7 +110,28 @@
   const fvids=[...document.querySelectorAll('video[data-autoplay]')];
   if(fvids.length){
     const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){const p=v.play();if(p&&p.catch)p.catch(()=>{})}else v.pause()}),{threshold:.1});
-    fvids.forEach(v=>{v.muted=true;vio.observe(v)});
+    fvids.forEach(v=>{
+      v.muted=true;vio.observe(v);
+      const fig=v.closest('figure'), b=fig&&fig.querySelector('[data-vsound]');
+      // Frame takes the video's own shape (no square crop) — except the home slider/contact frames sized by the layout
+      v.addEventListener('loadedmetadata',()=>{if(fig&&fig.classList.contains('is-video')&&v.videoWidth&&v.videoHeight&&!fig.classList.contains('c-visual'))fig.style.aspectRatio=v.videoWidth+'/'+v.videoHeight},{once:true});
+      if(!b) return;
+      const set=on=>{b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');b.setAttribute('aria-label',on?'Turn sound off':'Turn sound on')};
+      b.addEventListener('click',e=>{
+        e.preventDefault();e.stopPropagation();
+        const on=v.muted;
+        if(on) fvids.forEach(o=>{if(o!==v&&!o.muted){o.muted=true;const ob=o.closest('figure')?.querySelector('[data-vsound]');if(ob){ob.classList.remove('on');ob.setAttribute('aria-pressed','false');ob.setAttribute('aria-label','Turn sound on')}}});
+        v.muted=!on;set(on);
+        if(on){const p=v.play();if(p&&p.catch)p.catch(()=>{})}
+      });
+      // No sound track in this file → no Sound button
+      const noAudio=()=>{
+        if(v.mozHasAudio===false||(v.audioTracks&&v.audioTracks.length===0)||(v.webkitAudioDecodedByteCount===0&&v.currentTime>1.5)){b.hidden=true;return true}
+        return v.currentTime>1.5;
+      };
+      const chk=()=>{if(noAudio())v.removeEventListener('timeupdate',chk)};
+      v.addEventListener('timeupdate',chk);
+    });
   }
 
   // ---------- How we work slider (home page only) ----------

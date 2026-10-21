@@ -2,7 +2,7 @@ import { getServicesPage } from '../../lib/services';
 import HeroMedia from '../../components/HeroMedia';
 import { rimg } from '../../lib/img';
 import { LineIcon } from '../../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle, rich } from '../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -35,11 +35,11 @@ export default async function ServicesPage() {
               <h1 className="split chars" data-delay="200">
                 <HeroTitle items={p.hero.title} />
               </h1>
-              <p className="pp-lead rv d2">{p.hero.lead}</p>
+              <p className="pp-lead rv d2">{rich(p.hero.lead)}</p>
             </div>
             <HeroMedia className="dp-hero-img rv d1" image={p.hero.image} video={p.hero.video} sizes="(max-width: 1000px) 100vw, 40vw" parallax="0.12" priority />
           </div>
-          <p className="pp-foot rv d3">{p.hero.foot}</p>
+          <p className="pp-foot rv d3">{rich(p.hero.foot)}</p>
         </section>
 
         {/* ---------- Your full technology environment ---------- */}
@@ -66,7 +66,7 @@ export default async function ServicesPage() {
                   <Ico item={it} />
                 </span>
                 <h3>{it.title}</h3>
-                {it.text ? <p>{it.text}</p> : null}
+                {it.text ? <p>{rich(it.text)}</p> : null}
               </article>
             ))}
           </div>
@@ -80,7 +80,7 @@ export default async function ServicesPage() {
               <Lines items={p.cta.title} />
             </h2>
             <div className="cx-cta-side">
-              <p className="rv d1">{p.cta.text}</p>
+              <p className="rv d1">{rich(p.cta.text)}</p>
               {p.cta.button_label ? <Btn className="ink rv d2" href={p.cta.button_url} label={p.cta.button_label} /> : null}
             </div>
           </div>

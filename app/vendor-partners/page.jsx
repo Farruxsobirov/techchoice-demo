@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { getPartnersPage } from '../../lib/partners';
 import { rimg } from '../../lib/img';
 import { LineIcon, ArrowDown } from '../../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle, rich } from '../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -41,7 +41,7 @@ export default async function VendorPartnersPage() {
               <h1 className="split chars" data-delay="200">
                 <HeroTitle items={p.hero.title} />
               </h1>
-              <p className="pp-lead rv d2">{p.hero.lead}</p>
+              <p className="pp-lead rv d2">{rich(p.hero.lead)}</p>
             </div>
             <aside className="pc pc--plain rv d2" aria-label={p.hero.card_label}>
               <span className="pc-label">{p.hero.card_label}</span>
@@ -64,7 +64,7 @@ export default async function VendorPartnersPage() {
               </div>
             </aside>
           </div>
-          <p className="pp-foot rv d3">{p.hero.foot}</p>
+          <p className="pp-foot rv d3">{rich(p.hero.foot)}</p>
         </section>
 
         {/* ---------- How we work with vendors ---------- */}
@@ -94,7 +94,7 @@ export default async function VendorPartnersPage() {
                   <Ico item={it} />
                 </span>
                 <h3>{it.title}</h3>
-                <p>{it.text}</p>
+                <p>{rich(it.text)}</p>
               </article>
             ))}
           </div>

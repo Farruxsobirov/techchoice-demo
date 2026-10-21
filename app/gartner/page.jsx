@@ -1,7 +1,7 @@
 import { getEventsPage } from '../../lib/events';
 import BoothMap from '../../components/BoothMap';
 import { ArrowUpRight } from '../../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad, rich } from '../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -19,7 +19,7 @@ function Title({ as: Tag = 'h2', t, className = 'split' }) {
       {t.accent ? (
         <>
           <br />
-          <span className="ev-grad ev-acc" data-nosplit="">{t.accent}</span>
+          <span className="ev-grad ev-acc" data-nosplit="">{rich(t.accent)}</span>
         </>
       ) : null}
     </Tag>
@@ -33,7 +33,7 @@ function Head({ t, text }) {
         <span className="pp-label rv">{t.label}</span>
         <Title t={t} />
       </div>
-      {text ? <p className="ev-side rv d1">{text}</p> : null}
+      {text ? <p className="ev-side rv d1">{rich(text)}</p> : null}
     </div>
   );
 }
@@ -59,11 +59,11 @@ export default async function EventsPage() {
             {hero.accent ? (
               <>
                 <br />
-                <span className="ev-grad ev-acc" data-nosplit="">{hero.accent}</span>
+                <span className="ev-grad ev-acc" data-nosplit="">{rich(hero.accent)}</span>
               </>
             ) : null}
           </h1>
-          <p className="pp-lead rv d2">{hero.lead}</p>
+          <p className="pp-lead rv d2">{rich(hero.lead)}</p>
           <div className="ev-actions rv d3">
             {hero.button_label ? <Btn className="ev-white" href={hero.button_url} label={hero.button_label} /> : null}
             {hero.button2_label ? <Btn href={hero.button2_url} label={hero.button2_label} /> : null}
@@ -89,9 +89,9 @@ export default async function EventsPage() {
                   <span className="ev-svc-n">{pad(i + 1)} /</span>
                   <h3>{s.title}</h3>
                   <p>
-                    {s.tagline ? <b>{s.tagline}</b> : null}
+                    {s.tagline ? <b>{rich(s.tagline)}</b> : null}
                     {s.tagline && s.text ? <br /> : null}
-                    {s.text}
+                    {rich(s.text)}
                   </p>
                   {s.url ? (
                     <span className="ev-circle" aria-hidden="true">
@@ -126,7 +126,7 @@ export default async function EventsPage() {
                 <h3>
                   {pad(i + 1)} / {s.title}
                 </h3>
-                <p>{s.text}</p>
+                <p>{rich(s.text)}</p>
               </article>
             ))}
           </div>
@@ -169,7 +169,7 @@ export default async function EventsPage() {
             <div>
               <span className="pp-label rv">{booth.label}</span>
               <Title t={booth} />
-              <p className="ev-booth-text rv d1">{booth.text}</p>
+              <p className="ev-booth-text rv d1">{rich(booth.text)}</p>
               {booth.button_label ? <Btn className="ink rv d2" href={booth.button_url} label={booth.button_label} /> : null}
             </div>
             <div className="ev-map rv d1" id="map">
@@ -188,7 +188,7 @@ export default async function EventsPage() {
         <section className="ev-sec ev-dark ev-end" id="meet" data-theme="dark">
           <span className="pp-label rv">{cta.label}</span>
           <Title t={cta} />
-          <p className="ev-end-text rv d1">{cta.text}</p>
+          <p className="ev-end-text rv d1">{rich(cta.text)}</p>
           {cta.button_label ? <Btn className="ev-white rv d2" href={cta.button_url} label={cta.button_label} /> : null}
         </section>
       </main>

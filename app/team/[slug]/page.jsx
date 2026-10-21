@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getMember, fetchTeam } from '../../../lib/team';
 import { rimg } from '../../../lib/img';
 import { ArrowUpRight } from '../../../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Btn } from '../../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, rich } from '../../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes. New people get their page on first visit.
 export const revalidate = 300;
@@ -48,7 +48,7 @@ export default async function MemberPage({ params }) {
                 {m.name}
               </h1>
               <p className="tm-hero-role rv d1">{m.role}</p>
-              {m.tagline ? <p className="pp-lead rv d2">“{m.tagline}”</p> : null}
+              {m.tagline ? <p className="pp-lead rv d2">“{rich(m.tagline)}”</p> : null}
               {m.email || m.linkedin ? (
                 <div className="tm-contact rv d3">
                   {m.email ? <Btn href={`mailto:${m.email}`} label={m.email} /> : null}

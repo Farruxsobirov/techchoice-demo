@@ -1,7 +1,7 @@
 import { getContent, src, FALLBACK } from '../lib/content';
 import { rimg } from '../lib/img';
-import { ArrowUpRight, ArrowDown, Asterisk, TileIcon } from '../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Lines, Btn, Phases, pad } from '../components/Chrome';
+import { ArrowUpRight, ArrowDown, Asterisk, TileIcon, SoundButton } from '../components/Icons';
+import { Header, FullMenu, Cursor, Footer, Lines, Btn, Phases, pad, rich } from '../components/Chrome';
 
 // Rebuild at most every 5 minutes on its own; WordPress triggers an instant rebuild on save.
 export const revalidate = 300;
@@ -63,7 +63,7 @@ export default async function Home() {
               {hero.title_1}
               <br className="br" /> {hero.title_2}
             </h1>
-            <p className="hero-lead rv d2">{hero.lead}</p>
+            <p className="hero-lead rv d2">{rich(hero.lead)}</p>
             <div className="hero-row rv d3">
               <Btn href={hero.button_link} label={hero.button_label} />
               <div className="hero-aside">
@@ -151,7 +151,7 @@ export default async function Home() {
                 <h3 className="split chars live">
                   <a href={slideHref(s)}>{s.title}</a>
                 </h3>
-                <p>{s.text}</p>
+                <p>{rich(s.text)}</p>
                 {s.link_label ? (
                   <a className="explore" href={slideHref(s)}>
                     {s.link_label} <ArrowUpRight />
@@ -162,7 +162,7 @@ export default async function Home() {
           </div>
 
           <div className="p-foot">
-            <span>{pr.foot}</span>
+            <span>{rich(pr.foot)}</span>
             <div className="bars" id="bars" style={{ '--n': slides.length }}>
               {slides.map((s, i) => (
                 <button key={i} type="button" aria-label={`Go to ${s.title}`} style={{ '--i': i }}>
@@ -208,7 +208,10 @@ export default async function Home() {
             </div>
             <figure className={`c-visual${ct.video ? " is-video" : ""}`} id="cVisual">
               {ct.video ? (
-                <video src={ct.video} poster={ct.image ? ct.image.url : undefined} muted loop playsInline preload="none" data-autoplay="" aria-hidden="true" />
+                <>
+                  <video src={ct.video} poster={ct.image ? ct.image.url : undefined} muted loop playsInline preload="none" data-autoplay="" />
+                  <SoundButton />
+                </>
               ) : (
                 <img {...rimg(src(ct.image, FALLBACK.contact), { widths: [640, 1080, 1920], sizes: '(max-width: 900px) 100vw, 50vw' })} alt={ct.image?.alt || ''} loading="lazy" decoding="async" />
               )}

@@ -3,7 +3,7 @@ import { getProcessPage, PHASE_FALLBACK_IMAGES } from '../../lib/process';
 import { src } from '../../lib/content';
 import { rimg } from '../../lib/img';
 import { ArrowDown } from '../../components/Icons';
-import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad, HeroTitle } from '../../components/Chrome';
+import { Header, FullMenu, Cursor, Footer, Btn, Lines, pad, HeroTitle, rich } from '../../components/Chrome';
 
 // Same refresh rules as the home page: instant on WordPress save, otherwise every 5 minutes.
 export const revalidate = 300;
@@ -55,7 +55,7 @@ export default async function ProcessPage() {
               <h1 className="split chars" data-delay="200">
                 <HeroTitle items={p.hero.title} />
               </h1>
-              <p className="pp-lead rv d2">{p.hero.lead}</p>
+              <p className="pp-lead rv d2">{rich(p.hero.lead)}</p>
             </div>
             <aside className="pc rv d2" aria-label={p.hero.process_label}>
               <span className="pc-label">{p.hero.process_label}</span>
@@ -78,7 +78,7 @@ export default async function ProcessPage() {
               </div>
             </aside>
           </div>
-          <p className="pp-foot rv d3">{p.hero.foot}</p>
+          <p className="pp-foot rv d3">{rich(p.hero.foot)}</p>
         </section>
 
         {/* ---------- What is CYaaS ---------- */}
@@ -105,12 +105,12 @@ export default async function ProcessPage() {
                 </div>
                 <span className="ph-num">{pad(i + 1)}</span>
                 <h3>{it.title}</h3>
-                <p>{it.text}</p>
+                <p>{rich(it.text)}</p>
                 {it.button_label ? <Btn href={it.button_url} label={it.button_label} /> : null}
               </article>
             ))}
           </div>
-          <p className="ph-foot rv">{p.phases.foot}</p>
+          <p className="ph-foot rv">{rich(p.phases.foot)}</p>
         </section>
 
         {/* ---------- Call to action ---------- */}

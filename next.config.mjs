@@ -7,8 +7,43 @@ const wpHost = (() => {
   }
 })();
 
+// Security headers on every page (the security scan asked for these).
+// CSP stays practical: Next.js needs inline scripts/styles; pictures, videos and embeds (Spotify, YouTube, Vimeo)
+// may come from any https source because editors paste them in WordPress.
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https:",
+  "media-src 'self' blob: https:",
+  "font-src 'self' data:",
+  "connect-src 'self' https://cloudflareinsights.com",
+  "frame-src 'self' https:",
+  "frame-ancestors 'self'",
+  "base-uri 'self'",
+  "form-action 'self'",
+  "object-src 'none'",
+  'upgrade-insecure-requests',
+].join('; ');
+
+const SECURITY_HEADERS = [
+  { key: 'Strict-Transport-Security', value: 'max-age=31536000' },
+  { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+  { key: 'X-Content-Type-Options', value: 'nosniff' },
+  { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+  { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()' },
+];
+
 const nextConfig = {
   reactStrictMode: true,
+  poweredByHeader: false,
+  async headers() {
+    return [
+      { source: '/:path*', headers: SECURITY_HEADERS },
+      // The aaSet demo is the client's own HTML (it may load its own scripts), so it keeps only its own rules.
+      { source: '/((?!aaset/demo).*)', headers: [{ key: 'Content-Security-Policy', value: CSP }] },
+    ];
+  },
   // CONTROL+ was renamed to aaSet: old links keep working.
   async redirects() {
     return [

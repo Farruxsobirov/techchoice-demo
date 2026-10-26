@@ -1,14 +1,35 @@
 import { NextResponse } from 'next/server';
 
-/** www.techchoice.com → techchoice.com (one address for visitors and search engines). */
+/**
+ * One secure address for visitors and search engines:
+ *   http://…            → https://…          (301)
+ *   www.techchoice.com  → techchoice.com      (308)
+ * Cloudflare tells us the visitor's scheme in cf-visitor / x-forwarded-proto.
+ */
+function visitorScheme(request) {
+  const cf = request.headers.get('cf-visitor');
+  if (cf) {
+    try {
+      const s = JSON.parse(cf).scheme;
+      if (s) return s;
+    } catch {}
+  }
+  const xf = (request.headers.get('x-forwarded-proto') || '').split(',')[0].trim();
+  if (xf) return xf;
+  return new URL(request.url).protocol.replace(':', '');
+}
+
 export function middleware(request) {
   const host = request.headers.get('host') || '';
-  if (host.startsWith('www.')) {
+  const local = /^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$/.test(host);
+  const insecure = !local && visitorScheme(request) === 'http';
+  const www = host.startsWith('www.');
+  if (insecure || www) {
     const url = new URL(request.url);
-    url.host = host.slice(4);
+    url.host = www ? host.slice(4) : host;
     url.protocol = 'https:';
     url.port = '';
-    return NextResponse.redirect(url, 308);
+    return NextResponse.redirect(url, insecure ? 301 : 308);
   }
   return NextResponse.next();
 }

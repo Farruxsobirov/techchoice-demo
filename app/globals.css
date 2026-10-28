@@ -1159,3 +1159,6 @@ html:not(.js) .ev-stat::before{transform:none}
   .dp-hero{min-height:0}
   .dp-hero-grid{flex:none;align-content:start;align-items:start}
 }
+/* aaSet: demo opens on its own page — text + button in place of the frame */
+.cx-demo-open{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px 48px;margin-top:clamp(28px,2.6vw,48px);padding-top:clamp(24px,2vw,36px);border-top:1px solid rgba(255,255,255,.14)}
+.cx-demo-open p{margin:0;max-width:40em;font-size:clamp(16px,1.2vw,22px);line-height:1.45;color:#b8b8c2}

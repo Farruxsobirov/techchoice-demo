@@ -1,5 +1,5 @@
 import { getControlPlusPage } from '../../lib/controlPlus';
-import { LineIcon } from '../../components/Icons';
+import { LineIcon, ArrowUpRight } from '../../components/Icons';
 import { Header, FullMenu, Cursor, Footer, Btn, Lines, HeroTitle, rich } from '../../components/Chrome';
 
 // Instant refresh on WordPress save, otherwise every 5 minutes.
@@ -94,14 +94,23 @@ export default async function ControlPlusPage() {
           </div>
         </section>
 
-        {/* ---------- Platform demo (HTML from WordPress, served in its own frame) ---------- */}
+        {/* ---------- Platform demo: a button to /aaset/demo (its own page), or the demo in a frame here ---------- */}
         {p.demo.show ? (
           <section className="cx-demo" id="demo" data-theme="dark">
             {p.demo.label ? <span className="pp-label rv">{p.demo.label}</span> : null}
             {p.demo.title ? <h2 className="split">{p.demo.title}</h2> : null}
-            <div className="cx-demo-frame rv d1">
-              <iframe src="/aaset/demo" title={p.demo.title || 'Platform demo'} loading="lazy" style={{ height: p.demo.height }} />
-            </div>
+            {p.demo.display === 'embed' ? (
+              <div className="cx-demo-frame rv d1">
+                <iframe src="/aaset/demo" title={p.demo.title || 'Platform demo'} loading="lazy" style={{ height: p.demo.height }} />
+              </div>
+            ) : (
+              <div className="cx-demo-open rv d1">
+                {p.demo.text ? <p>{rich(p.demo.text)}</p> : null}
+                <a className="btn" href="/aaset/demo" target="_blank" rel="noopener">
+                  {p.demo.button_label} <ArrowUpRight />
+                </a>
+              </div>
+            )}
           </section>
         ) : null}
 

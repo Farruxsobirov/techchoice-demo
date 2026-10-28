@@ -9,7 +9,7 @@ export async function GET() {
   const html = page.demo && page.demo.show ? page.demo.html : '';
   if (!html) return new Response('Not found', { status: 404 });
   const head = '<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>aaSet — live demo · TechChoice</title>';
-  const page = (body) => `<!doctype html><html style="background:#0a0a0c"><head>${head}</head><body style="margin:0;background:#0a0a0c;color:#fff">${body}</body></html>`;
+  const wrap = (body) => `<!doctype html><html style="background:#0a0a0c"><head>${head}</head><body style="margin:0;background:#0a0a0c;color:#fff">${body}</body></html>`;
   // The usual case: the field holds an <iframe> pointing at the demo file (with a sized wrapper around it).
   // As its own page the demo then fills the whole window — the wrapper's width/height limits are dropped.
   const frame = !/<html[\s>]/i.test(html) && html.match(/<iframe\b[^>]*>/i);
@@ -19,9 +19,9 @@ export async function GET() {
       .replace(/\sstyle\s*=\s*("[^"]*"|'[^']*')/i, '')
       .replace(/\sloading\s*=\s*("[^"]*"|'[^']*'|\S+)/i, '')
       .replace(/<iframe\b/i, '<iframe style="position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#0a0a0c"');
-    doc = page(`${tag}</iframe>`);
+    doc = wrap(`${tag}</iframe>`);
   } else {
-    doc = /<html[\s>]/i.test(html) ? html : page(html);
+    doc = /<html[\s>]/i.test(html) ? html : wrap(html);
   }
   // Opened as its own page (not inside the aaSet frame): a small "Back to aaSet" link in the corner.
   const back =
